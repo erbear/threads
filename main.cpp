@@ -1,22 +1,64 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <cstring>
+
+char const *plik1, *plik2;
 
 pthread_t * worker_threads;
 int *worker_threads_args;
-int *worker_threads_done;
+int *worker_threads_status;
 
-int threadsNumber = 10;
+int threadsNumber = 2;
 
-void *show(void *params)
+pthread_mutex_t files_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void *sort(void *params)
 {
-    int number = *((int *)params);
-    printf("thread %d \n", number);
-    for (int i = 0; i<100000; i++){
-      if (i == 99999){
-        printf("\n%d done!", number);
-        worker_threads_done[number] = 1;
+    while (true){
+      int number = *((int *)params);
+      char currentFile[256];
+      char status[2];
+      bool newUrlSaved = false;
+
+      pthread_mutex_lock(&files_queue_mutex);
+
+      FILE * file = fopen(plik1, "r+");
+
+      FILE * tmp_file = fopen("tmp_file1.txt", "w");
+
+      if(file != NULL){
+          char url[256];
+          int i = 0;
+
+          while(fscanf(file, "%s %s", status, url) != EOF){
+            if(status[0] == '!') {
+              fprintf(tmp_file, "! %s\n", url);
+              continue;
+            }
+            if (newUrlSaved) {
+              fprintf(tmp_file, "- %s\n", url);
+            }
+            else {
+              strcpy(currentFile, url);
+              fprintf(tmp_file, "! %s\n", url);
+              newUrlSaved = true;
+              printf("%s\n", url);
+            }
+
+          }
+          fclose(file);
+          fclose(tmp_file);
+          if (unlink("file1.txt")==0){
+            rename("tmp_file1.txt", "file1.txt");
+          }
+
+      } else {
+          printf("File '%s' not found\n", plik1);
       }
+      worker_threads_status[number] = 1;
+      pthread_mutex_unlock(&files_queue_mutex);
+      break;
     }
 }
 
@@ -24,23 +66,39 @@ bool are_threads_finished()
 {
   bool result = true;
   for (int i=0; i<threadsNumber; i++){
-    if (worker_threads_done[i] == 0)
+    if (worker_threads_status[i] == 0)
       result = false;
   }
   return result;
 }
+void wait_for_worker_threads(){
+    for(int i=0; i<threadsNumber; i++){
+        pthread_join(worker_threads[i], NULL);
+    }
+}
 
-int main(int argc, char const *argv[]){
-    worker_threads = new pthread_t[threadsNumber];
-    worker_threads_args = new int[threadsNumber];
-    worker_threads_done = new int[threadsNumber];
+void create_threads(int number){
+    worker_threads = new pthread_t[number];
+    worker_threads_args = new int[number];
+    worker_threads_status = new int[number];
 
     for(int i=0; i<threadsNumber; i++){
-      worker_threads_done[i] = 0;
+      worker_threads_status[i] = 0;
       worker_threads_args[i] = i;
-      pthread_create(worker_threads + i, NULL, show, worker_threads_args + i);
+      pthread_create(worker_threads + i, NULL, sort, worker_threads_args + i);
     }
-    while (!are_threads_finished() == true);
+}
+
+int main(int argc, char const *argv[]){
+    plik1 = argv[1];
+    plik2 = argv[2];
+
+
+
+
+    create_threads(threadsNumber);
+
+    wait_for_worker_threads();
 
     printf("\nzrobiłem już chyba wszystko...");
 }
