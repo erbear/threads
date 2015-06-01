@@ -20,7 +20,8 @@ void *sort(void *params)
       char currentFile[256];
       char status[2];
       bool newUrlSaved = false;
-
+      int numberOfLine = 0;
+      int i = 0;
       pthread_mutex_lock(&files_queue_mutex);
 
       FILE * file = fopen(plik1, "r+");
@@ -29,21 +30,16 @@ void *sort(void *params)
 
       if(file != NULL){
           char url[256];
-          int i = 0;
-
-          while(fscanf(file, "%s %s", status, url) != EOF){
-            if(status[0] == '!') {
-              fprintf(tmp_file, "! %s\n", url);
+          while(i++, fscanf(file, "%s", url) != EOF){
+            if(url[0] == '-' || newUrlSaved) {
+              fprintf(tmp_file, "%s\n", url);
               continue;
-            }
-            if (newUrlSaved) {
-              fprintf(tmp_file, "- %s\n", url);
             }
             else {
               strcpy(currentFile, url);
-              fprintf(tmp_file, "! %s\n", url);
+              fprintf(tmp_file, "-%s\n", url);
               newUrlSaved = true;
-              printf("%s\n", url);
+              numberOfLine = i;
             }
 
           }
@@ -56,9 +52,14 @@ void *sort(void *params)
       } else {
           printf("File '%s' not found\n", plik1);
       }
+
       worker_threads_status[number] = 1;
       pthread_mutex_unlock(&files_queue_mutex);
-      break;
+      printf("thread = %d, i = %d, numberOfLine = %d\n", number, i, numberOfLine);
+
+      // if there is no new nodes
+      if (i - 1 == numberOfLine || numberOfLine == 0)
+        break;
     }
 }
 
@@ -92,9 +93,6 @@ void create_threads(int number){
 int main(int argc, char const *argv[]){
     plik1 = argv[1];
     plik2 = argv[2];
-
-
-
 
     create_threads(threadsNumber);
 
