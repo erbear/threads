@@ -3,12 +3,20 @@
 #include <unistd.h>
 #include <cstring>
 #include <curl/curl.h>
-#include <regex.h>
 #include <string.h>
 #include <vector>
 #include <ncurses.h>
+#include <string>
+#include <regex>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+using namespace std;
 
 char const *plik1, *plik2;
+
+regex pattern("[\"'](https{0,1}:\\/\\/\\S*)[\"']");
 
 struct down_file {
   int id;
@@ -19,25 +27,53 @@ struct down_file {
   double downloaded;
   char path[1000];
   bool error;
+  bool done;
+};
+
+
+struct linkEl
+{
+  int uniq;
+  char url[1000];
+  int rank;
 };
 
 pthread_t * worker_threads, screen_thread;
 int *worker_threads_args;
-int threadsNumber = 2;
+int threadsNumber = 3;
 pthread_mutex_t files_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
-std::vector<down_file*> allFiles;
 pthread_mutex_t screen_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t screen_cond = PTHREAD_COND_INITIALIZER;
 
 bool running = true;
-
 
 int screen_width;
 int screen_height;
 int screen_x;
 int screen_y;
 
+std::vector<down_file*> allFiles;
+std::vector<linkEl*> sortedFiles;
 
+void add_link(int uniq, char *url){
+  bool appears = false;
+  for (int i=0; i<sortedFiles.size(); i++){
+    int isEqual = strcmp(sortedFiles[i]->url, url);
+    if (isEqual == 0){
+      sortedFiles[i]->rank++;
+      appears = true;
+      //sort_links(i);
+      break;
+    }
+  }
+  if (!appears){
+    linkEl *newLink;
+    newLink = new linkEl;
+    strcpy(newLink->url, url);
+    newLink->rank = 1;
+    sortedFiles.push_back(newLink);
+  }
+}
 void * download_progress_func(down_file * f, double t, double d, double ultotal, double ulnow){
     pthread_mutex_lock(&screen_mutex);
     f->total = t;
@@ -72,11 +108,9 @@ void *sort(void *params)
       pthread_mutex_lock(&screen_mutex);
       down_file *threadFile;
       threadFile = new down_file;
-
       threadFile->id = *((int *)params);
-      allFiles.push_back(threadFile);
-      char tmp_path[40];
-      char currentFile[256];
+      char tmp_path[1000];
+      char currentFile[1000];
       char status[2];
       bool newUrlSaved = false;
       int numberOfLine = 0;
@@ -87,7 +121,7 @@ void *sort(void *params)
       FILE * tmp_file = fopen("tmp_file1.txt", "w");
 
       if(file != NULL){
-          char url[256];
+          char url[1000];
           while(i++, fscanf(file, "%s", url) != EOF){
             if(url[0] == '-' || newUrlSaved) {
               fprintf(tmp_file, "%s\n", url);
@@ -95,10 +129,12 @@ void *sort(void *params)
             }
             else {
               strcpy(threadFile->url, url);
+              threadFile->done = false;
               fprintf(tmp_file, "-%s\n", url);
               newUrlSaved = true;
               numberOfLine = i;
               threadFile->uniq = i;
+              allFiles.push_back(threadFile);
             }
 
           }
@@ -137,27 +173,60 @@ void *sort(void *params)
         if (fname != NULL){
 
           pthread_mutex_lock(&screen_mutex);
-          sprintf(threadFile->path, "%d.%s", threadFile->uniq, fname);
+          sprintf(threadFile->path, "files/%d.%s", threadFile->uniq, fname);
           delete fname;
           pthread_mutex_unlock(&screen_mutex);
 
           CURLcode res = curl_easy_perform(curl);
 
+          pthread_mutex_lock(&files_queue_mutex);
           pthread_mutex_lock(&screen_mutex);
           if(res == CURLE_OK){
             threadFile->error = false;
             rename(tmp_path, threadFile->path);
+            threadFile->done = true;
+            add_link(threadFile->uniq, threadFile->url);
           } else {
             threadFile->error = true;
           }
           running = true;
           pthread_mutex_unlock(&screen_mutex);
+          pthread_mutex_unlock(&files_queue_mutex);
         }
+
 
         fclose(outfile);
         curl_easy_cleanup(curl);
 
-      }
+        ifstream inFile;
+
+        //read from file
+
+        pthread_mutex_lock(&screen_mutex);
+        pthread_mutex_lock(&files_queue_mutex);
+        inFile.open(threadFile->path);//open the input file
+
+        stringstream strStream;
+        strStream << inFile.rdbuf();//read the file
+        string str = strStream.str();//str holds the content of the file
+
+        pthread_mutex_unlock(&screen_mutex);
+        pthread_mutex_unlock(&files_queue_mutex);
+
+        int line;
+        string tekst;
+        while( getline( strStream, tekst ) )
+        {
+            smatch wynik; // tutaj będzie zapisany wynik
+            ++line;
+            if( regex_search( tekst, wynik, pattern ) ){
+                string tad = wynik.str();
+                tad.erase(tad.begin());
+                tad.erase(tad.end() - 1);
+                cout << "Linia " << line << " : " << tad << '\n';
+            }
+          }
+        }
       // if there is no new nodes
       if (i - 1 == numberOfLine || numberOfLine == 0)
         break;
@@ -169,25 +238,51 @@ void paint(){
   int x = 0;
   int y = 0;
   double percent;
+  int secondColumn = 100;
+
+  mvprintw(y, x+40, "%-50s", "List of files");
+  mvprintw(y, x+secondColumn, "%-50s", "|");
+  mvprintw(y+1, x+secondColumn, "%-50s", "|");
+  mvprintw(y, x+secondColumn+40, "%-50s", "Scores");
+  y = y+2;
+  mvprintw(y, x+secondColumn, "%-50s", "|");
   for (int i = 0; i<allFiles.size(); i++)
   {
     clrtoeol();
-    attron(COLOR_PAIR(1));
-    mvprintw(y, x, "%3d. %-50s", i+1, allFiles[i]->url);
-    attroff(COLOR_PAIR(1));
-    if(allFiles[i]->total != 0.0)
-      percent = allFiles[i]->downloaded*100/allFiles[i]->total;
-    else
-      percent = 0;
 
-    //printf("t: %f\n", percent);
-    attron(COLOR_PAIR(2));
-    mvprintw(y, x+80, "%f",  percent);
-    attroff(COLOR_PAIR(2));
+    if (allFiles[i]->error){
+      attron(COLOR_PAIR(3));
+      mvprintw(y, x, "%-50s",  allFiles[i]->error_msg);
+      attroff(COLOR_PAIR(3));
+      mvprintw(y, x+secondColumn, "%-50s", "|");
+    }
+    else{
 
+      if (!allFiles[i]->done){
+        if(allFiles[i]->total != 0.0)
+          percent = allFiles[i]->downloaded*100/allFiles[i]->total;
+        else
+          percent = 0;
+
+        attron(COLOR_PAIR(2));
+        mvprintw(y, x, "%3.0f%%",  percent);
+        mvprintw(y, x+10, "%3d. %-50s", i+1, allFiles[i]->url);
+        attroff(COLOR_PAIR(2));
+      } else
+      {
+        mvprintw(y, x, "DONE!");
+        mvprintw(y, x+10, "%3d. %-50s", i+1, allFiles[i]->url);
+      }
+      mvprintw(y, x+secondColumn, "%-50s", "|");
+    }
     y++;
   }
 
+  y=2;
+  for (int i = 0; i<sortedFiles.size(); i++){
+    mvprintw(y, x+secondColumn+2, "%3d. %-50s", sortedFiles[i]->rank, sortedFiles[i]->url);
+    y++;
+  }
   refresh();
 }
 void * screen_function(void * _arg) {
