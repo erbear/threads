@@ -44,6 +44,7 @@ int threadsNumber = 3;
 pthread_mutex_t files_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t screen_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t screen_cond = PTHREAD_COND_INITIALIZER;
+pthread_cond_t download_cond = PTHREAD_COND_INITIALIZER;
 
 bool running = true;
 
@@ -107,52 +108,52 @@ void *sort(void *params)
       pthread_mutex_lock(&files_queue_mutex);
       pthread_mutex_lock(&screen_mutex);
       down_file *threadFile;
-      threadFile = new down_file;
-      threadFile->id = *((int *)params);
       char tmp_path[1000];
       char currentFile[1000];
       char status[2];
       bool newUrlSaved = false;
       int numberOfLine = 0;
       int i = 0;
+      bool founded = false;
 
       FILE * file = fopen(plik1, "r+");
 
       FILE * tmp_file = fopen("tmp_file1.txt", "w");
 
       if(file != NULL){
-          char url[1000];
-          while(i++, fscanf(file, "%s", url) != EOF){
-            if(url[0] == '-' || newUrlSaved) {
-              fprintf(tmp_file, "%s\n", url);
-              continue;
-            }
-            else {
-              strcpy(threadFile->url, url);
-              threadFile->done = false;
-              fprintf(tmp_file, "-%s\n", url);
-              newUrlSaved = true;
-              numberOfLine = i;
-              threadFile->uniq = i;
-              allFiles.push_back(threadFile);
-            }
-
+        char url[1000];
+        while(i++, fscanf(file, "%s", url) != EOF){
+          if(url[0] == '-' || newUrlSaved) {
+            fprintf(tmp_file, "%s\n", url);
+            continue;
           }
-          fclose(file);
-          fclose(tmp_file);
-          if (unlink("file1.txt")==0){
-            rename("tmp_file1.txt", "file1.txt");
+          else {
+            threadFile = new down_file;
+            threadFile->id = *((int *)params);
+            strcpy(threadFile->url, url);
+            threadFile->done = false;
+            fprintf(tmp_file, "-%s\n", url);
+            newUrlSaved = true;
+            numberOfLine = i;
+            threadFile->uniq = i;
+            allFiles.push_back(threadFile);
+            founded = true;
           }
-
+        }
       } else {
           printf("File '%s' not found\n", plik1);
       }
 
+      fclose(file);
+      fclose(tmp_file);
+      if (unlink("file1.txt")==0){
+        rename("tmp_file1.txt", "file1.txt");
+      }
       pthread_cond_signal(&screen_cond);
       pthread_mutex_unlock(&screen_mutex);
       pthread_mutex_unlock(&files_queue_mutex);
-      // printf("thread = %d, i = %d, numberOfLine = %d\n", threadFile->id, i, numberOfLine);
 
+      if (!founded) break;
       // download
       CURL *curl = curl_easy_init();
       if(curl){
@@ -198,35 +199,40 @@ void *sort(void *params)
         fclose(outfile);
         curl_easy_cleanup(curl);
 
-        ifstream inFile;
+        // ifstream inFile;
 
-        //read from file
+        // //read from file
 
-        pthread_mutex_lock(&screen_mutex);
-        pthread_mutex_lock(&files_queue_mutex);
-        inFile.open(threadFile->path);//open the input file
+        // pthread_mutex_lock(&screen_mutex);
+        // pthread_mutex_lock(&files_queue_mutex);
+        // inFile.open(threadFile->path);//open the input file
 
-        stringstream strStream;
-        strStream << inFile.rdbuf();//read the file
-        string str = strStream.str();//str holds the content of the file
+        // stringstream strStream;
+        // strStream << inFile.rdbuf();//read the file
+        // string str = strStream.str();//str holds the content of the file
 
-        pthread_mutex_unlock(&screen_mutex);
-        pthread_mutex_unlock(&files_queue_mutex);
+        // pthread_mutex_unlock(&screen_mutex);
+        // pthread_mutex_unlock(&files_queue_mutex);
 
-        int line;
-        string tekst;
-        while( getline( strStream, tekst ) )
-        {
-            smatch wynik; // tutaj będzie zapisany wynik
-            ++line;
-            if( regex_search( tekst, wynik, pattern ) ){
-                string tad = wynik.str();
-                tad.erase(tad.begin());
-                tad.erase(tad.end() - 1);
-                cout << "Linia " << line << " : " << tad << '\n';
-            }
-          }
-        }
+        // int line;
+        // string tekst;
+        // std::ofstream out;
+        // out.open("file1.txt", ios::app);
+        // while( getline( strStream, tekst ) )
+        // {
+        //   smatch wynik; // tutaj będzie zapisany wynik
+        //   ++line;
+        //   if( regex_search( tekst, wynik, pattern ) ){
+        //     string tad = wynik.str();
+        //     tad.erase(tad.begin());
+        //     tad.erase(tad.end() - 1);
+
+        //     pthread_mutex_lock(&files_queue_mutex);
+        //     out << tad << "\n";
+        //     pthread_mutex_unlock(&files_queue_mutex);
+        //   }
+        // }
+      }
       // if there is no new nodes
       if (i - 1 == numberOfLine || numberOfLine == 0)
         break;
@@ -297,10 +303,9 @@ void * screen_function(void * _arg) {
 
   nodelay(stdscr, true);
 
-  while (running){
+  while (true){
     pthread_mutex_lock(&screen_mutex);
     paint();
-    pthread_cond_wait(&screen_cond, &screen_mutex);
     pthread_mutex_unlock(&screen_mutex);
   }
 

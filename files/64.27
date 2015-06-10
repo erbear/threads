@@ -1,0 +1,1317 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en" class="">
+  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# object: http://ogp.me/ns/object# article: http://ogp.me/ns/article# profile: http://ogp.me/ns/profile#">
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    
+    
+    <title>Loading bar should only appear on noticeable latency · Issue #27 · chieffancypants/angular-loading-bar · GitHub</title>
+    <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
+    <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-114.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-144.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144.png">
+    <meta property="fb:app_id" content="1401488693436528">
+
+      <meta content="@github" name="twitter:site" /><meta content="summary" name="twitter:card" /><meta content="Loading bar should only appear on noticeable latency · Issue #27 · chieffancypants/angular-loading-bar" name="twitter:title" /><meta content="The bar should only appear when there is noticeable latency.  Displaying the bar on every XHR request gets repetitive, and serves very little purpose on those quick ~20ms calls.
+
+This change will l..." name="twitter:description" /><meta content="https://avatars2.githubusercontent.com/u/1320204?v=3&amp;s=400" name="twitter:image:src" />
+      <meta content="GitHub" property="og:site_name" /><meta content="object" property="og:type" /><meta content="https://avatars2.githubusercontent.com/u/1320204?v=3&amp;s=400" property="og:image" /><meta content="Loading bar should only appear on noticeable latency · Issue #27 · chieffancypants/angular-loading-bar" property="og:title" /><meta content="https://github.com/chieffancypants/angular-loading-bar/issues/27" property="og:url" /><meta content="The bar should only appear when there is noticeable latency.  Displaying the bar on every XHR request gets repetitive, and serves very little purpose on those quick ~20ms calls.
+
+This change will l..." property="og:description" />
+      <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+    <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+    <link rel="assets" href="https://assets-cdn.github.com/">
+    
+    <meta name="pjax-timeout" content="1000">
+    
+
+    <meta name="msapplication-TileImage" content="/windows-tile.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="selected-link" value="repo_issues" data-pjax-transient>
+      <meta name="google-analytics" content="UA-3769691-2">
+
+    <meta content="collector.githubapp.com" name="octolytics-host" /><meta content="collector-cdn.github.com" name="octolytics-script-host" /><meta content="github" name="octolytics-app-id" /><meta content="C3BFA24A:06BC:126149C:55780615" name="octolytics-dimension-request_id" />
+    
+    <meta content="Rails, view, issues#show" name="analytics-event" />
+    <meta class="js-ga-set" name="dimension1" content="Logged Out">
+    <meta class="js-ga-set" name="dimension2" content="Header v3">
+    <meta name="is-dotcom" content="true">
+      <meta name="hostname" content="github.com">
+    <meta name="user-login" content="">
+
+      <link rel="icon" sizes="any" mask href="https://assets-cdn.github.com/pinned-octocat.svg">
+      <meta name="theme-color" content="#4078c0">
+      <link rel="icon" type="image/x-icon" href="https://assets-cdn.github.com/favicon.ico">
+
+
+    <meta content="authenticity_token" name="csrf-param" />
+<meta content="RgBnGUmy+8sJBnU9acUctikO4ZaN3IzgNN7Fl9EL3BvLFhFrdi/vcVW/66+rX98F+t2hGcars4ErdbDHSLmchQ==" name="csrf-token" />
+
+    <link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/github/index-9abd58cd98193694dc148db1c5608d1ea84e1d5493337837b5f2bd063556e687.css" media="all" rel="stylesheet" />
+    <link crossorigin="anonymous" href="https://assets-cdn.github.com/assets/github2/index-1b83a5e3cdbe8e2d3d0d957bad4e28490ded53991b08efea2ca0ad708622e92a.css" media="all" rel="stylesheet" />
+    
+    
+
+
+    <meta http-equiv="x-pjax-version" content="e650c4a407010742ed70aa5d7293c982">
+
+      
+  <meta name="description" content="angular-loading-bar - A fully automatic loading / progress bar for your angular apps.">
+  <meta name="go-import" content="github.com/chieffancypants/angular-loading-bar git https://github.com/chieffancypants/angular-loading-bar.git">
+
+  <meta content="1320204" name="octolytics-dimension-user_id" /><meta content="chieffancypants" name="octolytics-dimension-user_login" /><meta content="12716501" name="octolytics-dimension-repository_id" /><meta content="chieffancypants/angular-loading-bar" name="octolytics-dimension-repository_nwo" /><meta content="true" name="octolytics-dimension-repository_public" /><meta content="false" name="octolytics-dimension-repository_is_fork" /><meta content="12716501" name="octolytics-dimension-repository_network_root_id" /><meta content="chieffancypants/angular-loading-bar" name="octolytics-dimension-repository_network_root_nwo" />
+  <link href="https://github.com/chieffancypants/angular-loading-bar/commits/master.atom" rel="alternate" title="Recent Commits to angular-loading-bar:master" type="application/atom+xml">
+
+  </head>
+
+
+  <body class="logged_out  env-production  vis-public">
+    <a href="#start-of-content" tabindex="1" class="accessibility-aid js-skip-to-content">Skip to content</a>
+    <div class="wrapper">
+      
+      
+      
+
+
+        
+        <div class="header header-logged-out" role="banner">
+  <div class="container clearfix">
+
+    <a class="header-logo-wordmark" href="https://github.com/" data-ga-click="(Logged out) Header, go to homepage, icon:logo-wordmark">
+      <span class="mega-octicon octicon-logo-github"></span>
+    </a>
+
+    <div class="header-actions" role="navigation">
+        <a class="btn btn-primary" href="/join" data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up">Sign up</a>
+      <a class="btn" href="/login?return_to=%2Fchieffancypants%2Fangular-loading-bar%2Fissues%2F27" data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in">Sign in</a>
+    </div>
+
+    <div class="site-search repo-scope js-site-search" role="search">
+      <form accept-charset="UTF-8" action="/chieffancypants/angular-loading-bar/search" class="js-site-search-form" data-global-search-url="/search" data-repo-search-url="/chieffancypants/angular-loading-bar/search" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+  <label class="js-chromeless-input-container form-control">
+    <div class="scope-badge">This repository</div>
+    <input type="text"
+      class="js-site-search-focus js-site-search-field is-clearable chromeless-input"
+      data-hotkey="s"
+      name="q"
+      placeholder="Search"
+      data-global-scope-placeholder="Search GitHub"
+      data-repo-scope-placeholder="Search"
+      tabindex="1"
+      autocapitalize="off">
+  </label>
+</form>
+    </div>
+
+      <ul class="header-nav left" role="navigation">
+          <li class="header-nav-item">
+            <a class="header-nav-link" href="/explore" data-ga-click="(Logged out) Header, go to explore, text:explore">Explore</a>
+          </li>
+          <li class="header-nav-item">
+            <a class="header-nav-link" href="/features" data-ga-click="(Logged out) Header, go to features, text:features">Features</a>
+          </li>
+          <li class="header-nav-item">
+            <a class="header-nav-link" href="https://enterprise.github.com/" data-ga-click="(Logged out) Header, go to enterprise, text:enterprise">Enterprise</a>
+          </li>
+          <li class="header-nav-item">
+            <a class="header-nav-link" href="/blog" data-ga-click="(Logged out) Header, go to blog, text:blog">Blog</a>
+          </li>
+      </ul>
+
+  </div>
+</div>
+
+
+
+      <div id="start-of-content" class="accessibility-aid"></div>
+          <div class="site" itemscope itemtype="http://schema.org/WebPage">
+    <div id="js-flash-container">
+      
+    </div>
+    <div class="pagehead repohead instapaper_ignore readability-menu">
+      <div class="container">
+
+        
+<ul class="pagehead-actions">
+
+  <li>
+      <a href="/login?return_to=%2Fchieffancypants%2Fangular-loading-bar"
+    class="btn btn-sm btn-with-count tooltipped tooltipped-n"
+    aria-label="You must be signed in to watch a repository" rel="nofollow">
+    <span class="octicon octicon-eye"></span>
+    Watch
+  </a>
+  <a class="social-count" href="/chieffancypants/angular-loading-bar/watchers">
+    113
+  </a>
+
+  </li>
+
+  <li>
+      <a href="/login?return_to=%2Fchieffancypants%2Fangular-loading-bar"
+    class="btn btn-sm btn-with-count tooltipped tooltipped-n"
+    aria-label="You must be signed in to star a repository" rel="nofollow">
+    <span class="octicon octicon-star"></span>
+    Star
+  </a>
+
+    <a class="social-count js-social-count" href="/chieffancypants/angular-loading-bar/stargazers">
+      3,031
+    </a>
+
+  </li>
+
+    <li>
+      <a href="/login?return_to=%2Fchieffancypants%2Fangular-loading-bar"
+        class="btn btn-sm btn-with-count tooltipped tooltipped-n"
+        aria-label="You must be signed in to fork a repository" rel="nofollow">
+        <span class="octicon octicon-repo-forked"></span>
+        Fork
+      </a>
+      <a href="/chieffancypants/angular-loading-bar/network" class="social-count">
+        360
+      </a>
+    </li>
+</ul>
+
+        <h1 itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="entry-title public">
+          <span class="mega-octicon octicon-repo"></span>
+          <span class="author"><a href="/chieffancypants" class="url fn" itemprop="url" rel="author"><span itemprop="title">chieffancypants</span></a></span><!--
+       --><span class="path-divider">/</span><!--
+       --><strong><a href="/chieffancypants/angular-loading-bar" data-pjax="#js-repo-pjax-container">angular-loading-bar</a></strong>
+
+          <span class="page-context-loader">
+            <img alt="" height="16" src="https://assets-cdn.github.com/assets/spinners/octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" width="16" />
+          </span>
+
+        </h1>
+      </div><!-- /.container -->
+    </div><!-- /.repohead -->
+
+    <div class="container">
+      <div class="repository-with-sidebar repo-container new-discussion-timeline  ">
+        <div class="repository-sidebar clearfix">
+            
+<nav class="sunken-menu repo-nav js-repo-nav js-sidenav-container-pjax js-octicon-loaders"
+     role="navigation"
+     data-pjax="#js-repo-pjax-container"
+     data-issue-count-url="/chieffancypants/angular-loading-bar/issues/counts">
+  <ul class="sunken-menu-group">
+    <li class="tooltipped tooltipped-w" aria-label="Code">
+      <a href="/chieffancypants/angular-loading-bar" aria-label="Code" class="js-selected-navigation-item sunken-menu-item" data-hotkey="g c" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches /chieffancypants/angular-loading-bar">
+        <span class="octicon octicon-code"></span> <span class="full-word">Code</span>
+        <img alt="" class="mini-loader" height="16" src="https://assets-cdn.github.com/assets/spinners/octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" width="16" />
+</a>    </li>
+
+      <li class="tooltipped tooltipped-w" aria-label="Issues">
+        <a href="/chieffancypants/angular-loading-bar/issues" aria-label="Issues" class="selected js-selected-navigation-item sunken-menu-item" data-hotkey="g i" data-selected-links="repo_issues repo_labels repo_milestones /chieffancypants/angular-loading-bar/issues">
+          <span class="octicon octicon-issue-opened"></span> <span class="full-word">Issues</span>
+          <span class="js-issue-replace-counter"></span>
+          <img alt="" class="mini-loader" height="16" src="https://assets-cdn.github.com/assets/spinners/octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" width="16" />
+</a>      </li>
+
+    <li class="tooltipped tooltipped-w" aria-label="Pull requests">
+      <a href="/chieffancypants/angular-loading-bar/pulls" aria-label="Pull requests" class="js-selected-navigation-item sunken-menu-item" data-hotkey="g p" data-selected-links="repo_pulls /chieffancypants/angular-loading-bar/pulls">
+          <span class="octicon octicon-git-pull-request"></span> <span class="full-word">Pull requests</span>
+          <span class="js-pull-replace-counter"></span>
+          <img alt="" class="mini-loader" height="16" src="https://assets-cdn.github.com/assets/spinners/octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" width="16" />
+</a>    </li>
+
+  </ul>
+  <div class="sunken-menu-separator"></div>
+  <ul class="sunken-menu-group">
+
+    <li class="tooltipped tooltipped-w" aria-label="Pulse">
+      <a href="/chieffancypants/angular-loading-bar/pulse" aria-label="Pulse" class="js-selected-navigation-item sunken-menu-item" data-selected-links="pulse /chieffancypants/angular-loading-bar/pulse">
+        <span class="octicon octicon-pulse"></span> <span class="full-word">Pulse</span>
+        <img alt="" class="mini-loader" height="16" src="https://assets-cdn.github.com/assets/spinners/octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" width="16" />
+</a>    </li>
+
+    <li class="tooltipped tooltipped-w" aria-label="Graphs">
+      <a href="/chieffancypants/angular-loading-bar/graphs" aria-label="Graphs" class="js-selected-navigation-item sunken-menu-item" data-selected-links="repo_graphs repo_contributors /chieffancypants/angular-loading-bar/graphs">
+        <span class="octicon octicon-graph"></span> <span class="full-word">Graphs</span>
+        <img alt="" class="mini-loader" height="16" src="https://assets-cdn.github.com/assets/spinners/octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" width="16" />
+</a>    </li>
+  </ul>
+
+
+</nav>
+
+              <div class="only-with-full-nav">
+                  
+<div class="js-clone-url clone-url open"
+  data-protocol-type="http">
+  <h3><span class="text-emphasized">HTTPS</span> clone URL</h3>
+  <div class="input-group js-zeroclipboard-container">
+    <input type="text" class="input-mini input-monospace js-url-field js-zeroclipboard-target"
+           value="https://github.com/chieffancypants/angular-loading-bar.git" readonly="readonly">
+    <span class="input-group-button">
+      <button aria-label="Copy to clipboard" class="js-zeroclipboard btn btn-sm zeroclipboard-button tooltipped tooltipped-s" data-copied-hint="Copied!" type="button"><span class="octicon octicon-clippy"></span></button>
+    </span>
+  </div>
+</div>
+
+  
+<div class="js-clone-url clone-url "
+  data-protocol-type="subversion">
+  <h3><span class="text-emphasized">Subversion</span> checkout URL</h3>
+  <div class="input-group js-zeroclipboard-container">
+    <input type="text" class="input-mini input-monospace js-url-field js-zeroclipboard-target"
+           value="https://github.com/chieffancypants/angular-loading-bar" readonly="readonly">
+    <span class="input-group-button">
+      <button aria-label="Copy to clipboard" class="js-zeroclipboard btn btn-sm zeroclipboard-button tooltipped tooltipped-s" data-copied-hint="Copied!" type="button"><span class="octicon octicon-clippy"></span></button>
+    </span>
+  </div>
+</div>
+
+
+
+<div class="clone-options">You can clone with
+  <form accept-charset="UTF-8" action="/users/set_protocol?protocol_selector=http&amp;protocol_type=clone" class="inline-form js-clone-selector-form " data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="rmNo2riTMPanW9PB5x+NMXpurGXigjzFTDK0wtkqWNw3v9XjmwFNYubZ4NtK+3isXRJwW4p6GOdRnU2dsr6FLQ==" /></div><button class="btn-link js-clone-selector" data-protocol="http" type="submit">HTTPS</button></form> or <form accept-charset="UTF-8" action="/users/set_protocol?protocol_selector=subversion&amp;protocol_type=clone" class="inline-form js-clone-selector-form " data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="iK4RQvDFgRYvrLgU+WWFNssniU+knoGbBBZNrHXdQzUihINpOEFIWXityQHRoo5bpBzFJbvsDsCa5G3CaSQ0uA==" /></div><button class="btn-link js-clone-selector" data-protocol="subversion" type="submit">Subversion</button></form>.
+  <a href="https://help.github.com/articles/which-remote-url-should-i-use" class="help tooltipped tooltipped-n" aria-label="Get help on which URL is right for you.">
+    <span class="octicon octicon-question"></span>
+  </a>
+</div>
+
+
+
+
+                <a href="/chieffancypants/angular-loading-bar/archive/master.zip"
+                   class="btn btn-sm sidebar-button"
+                   aria-label="Download the contents of chieffancypants/angular-loading-bar as a zip file"
+                   title="Download the contents of chieffancypants/angular-loading-bar as a zip file"
+                   rel="nofollow">
+                  <span class="octicon octicon-cloud-download"></span>
+                  Download ZIP
+                </a>
+              </div>
+        </div><!-- /.repository-sidebar -->
+
+        <div id="js-repo-pjax-container" class="repository-content context-loader-container" data-pjax-container>
+
+          
+<style type="text/css" media="screen">
+  span.labelstyle-fbca04, .linked-labelstyle-fbca04 {  background-color: #fbca04 !important;  color: #332900 !important;}.labelstyle-fbca04.selected {  background-color: #fbca04 !important;  color: #332900 !important;}.label-select-menu .labelstyle-fbca04.selected {  background:rgba(251, 202, 4, 0.12) !important;  color: #997b02 !important;}
+
+span.labelstyle-fc2929, .linked-labelstyle-fc2929 {  background-color: #fc2929 !important;  color: #fff !important;}.labelstyle-fc2929.selected {  background-color: #fc2929 !important;  color: #fff !important;}.label-select-menu .labelstyle-fc2929.selected {  background:rgba(252, 41, 41, 0.12) !important;  color: #991818 !important;}
+
+span.labelstyle-cccccc, .linked-labelstyle-cccccc {  background-color: #cccccc !important;  color: #333333 !important;}.labelstyle-cccccc.selected {  background-color: #cccccc !important;  color: #333333 !important;}.label-select-menu .labelstyle-cccccc.selected {  background:rgba(204, 204, 204, 0.12) !important;  color: #999999 !important;}
+
+span.labelstyle-84b6eb, .linked-labelstyle-84b6eb {  background-color: #84b6eb !important;  color: #1c2733 !important;}.labelstyle-84b6eb.selected {  background-color: #84b6eb !important;  color: #1c2733 !important;}.label-select-menu .labelstyle-84b6eb.selected {  background:rgba(132, 182, 235, 0.12) !important;  color: #557699 !important;}
+
+span.labelstyle-e6e6e6, .linked-labelstyle-e6e6e6 {  background-color: #e6e6e6 !important;  color: #333333 !important;}.labelstyle-e6e6e6.selected {  background-color: #e6e6e6 !important;  color: #333333 !important;}.label-select-menu .labelstyle-e6e6e6.selected {  background:rgba(230, 230, 230, 0.12) !important;  color: #999999 !important;}
+
+span.labelstyle-cc317c, .linked-labelstyle-cc317c {  background-color: #cc317c !important;  color: #fff !important;}.labelstyle-cc317c.selected {  background-color: #cc317c !important;  color: #fff !important;}.label-select-menu .labelstyle-cc317c.selected {  background:rgba(204, 49, 124, 0.12) !important;  color: #99245c !important;}
+
+span.labelstyle-5319e7, .linked-labelstyle-5319e7 {  background-color: #5319e7 !important;  color: #fff !important;}.labelstyle-5319e7.selected {  background-color: #5319e7 !important;  color: #fff !important;}.label-select-menu .labelstyle-5319e7.selected {  background:rgba(83, 25, 231, 0.12) !important;  color: #361099 !important;}
+
+span.labelstyle-ffffff, .linked-labelstyle-ffffff {  background-color: #ffffff !important;  color: #333333 !important;}.labelstyle-ffffff.selected {  background-color: #ffffff !important;  color: #333333 !important;}.label-select-menu .labelstyle-ffffff.selected {  background:rgba(255, 255, 255, 0.12) !important;  color: #999999 !important;}
+</style>
+
+<div class="issues-listing" data-pjax>
+  <div class="context-loader large-format-loader">
+  <p><img alt="" height="64" src="https://assets-cdn.github.com/assets/spinners/octocat-spinner-128-338974454bb5c32803e82f601beb051d373744b024fe8742a76009700fd7e033.gif" width="64" /></p>
+  <p>Loading…</p>
+</div>
+
+    <div id="show_issue" class="js-issues-results">
+
+    
+  <div
+    id="partial-discussion-header"
+    class="gh-header js-details-container js-socket-channel js-updatable-content issue"
+    data-channel="chieffancypants/angular-loading-bar:issue:24158145"
+    data-url="/chieffancypants/angular-loading-bar/issues/27/show_partial?partial=issues%2Ftitle">
+
+  <div class="gh-header-show ">
+      <div class="gh-header-actions">
+          <a href="/chieffancypants/angular-loading-bar/issues/new" class="btn btn-sm btn-primary right" data-hotkey="c">
+            New issue
+          </a>
+      </div>
+
+    <h1 class="gh-header-title">
+      <span class="js-issue-title">Loading bar should only appear on noticeable latency</span>
+      <span class="gh-header-number">#27</span>
+    </h1>
+  </div>
+
+
+  <div class="flex-table gh-header-meta">
+    <div class="flex-table-item">
+        <div class="state state-closed">
+          <span class="octicon octicon-issue-closed"></span>
+          Closed
+        </div>
+    </div>
+    <div class="flex-table-item flex-table-item-primary">
+        <a href="/chieffancypants" class="author">chieffancypants</a> opened this <span class="noun">Issue</span> <time datetime="2013-12-12T05:09:55Z" is="relative-time">Dec 12, 2013</time>
+        &middot; 6 comments
+    </div>
+  </div>
+</div>
+
+
+    <div id="discussion_bucket" class="tab-content clearfix">
+      <div class="discussion-sidebar">
+        <div id="partial-discussion-stats"
+     class="discussion-stats js-socket-channel js-updatable-content"
+     data-channel="chieffancypants/angular-loading-bar:issue:24158145"
+     data-url="/chieffancypants/angular-loading-bar/issues/27/show_partial?partial=issues%2Fdiscussion_stats">
+</div>
+
+<div class="discussion-sidebar-item sidebar-labels js-discussion-sidebar-item">
+  <form accept-charset="UTF-8" action="/chieffancypants/angular-loading-bar/issues/27?partial=issues%2Fsidebar%2Fshow%2Flabels" class="js-issue-sidebar-form" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="npBw2GPSghmMT7RbHoNSPC6tTIXci0a893SIU9TFs54p+FQow/9lCvXoaT4Om/JcubgoD+B0NCO8QY8yaEmaVA==" /></div>
+      
+  <h3 class="discussion-sidebar-heading">
+    Labels
+  </h3>
+
+
+    <div class="labels css-truncate">
+      <a href="/chieffancypants/angular-loading-bar/labels/enhancement" class="label css-truncate-target linked-labelstyle-84b6eb" title="enhancement">enhancement</a>
+
+</div>
+
+</form></div>
+
+<div class="discussion-sidebar-item sidebar-milestone js-discussion-sidebar-item">
+  <form accept-charset="UTF-8" action="/chieffancypants/angular-loading-bar/issues/27/set_milestone?partial=issues%2Fsidebar%2Fshow%2Fmilestone" class="js-issue-sidebar-form" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="mI4ux6aAL1NkZohpFwADA3/HKhG8jsCj/R4fwOsqHkhBtTQjBCzcPD6aXSCN9jhHBJLWZufyJ3slvmzSuirEQA==" /></div>
+    
+  <h3 class="discussion-sidebar-heading">
+    Milestone
+  </h3>
+
+
+      <span class="progress-bar"><span class="progress" style="width: 100.0%">&nbsp;</span></span>
+  <a title="0.3.0" href="/chieffancypants/angular-loading-bar/milestones/0.3.0" class="milestone-name css-truncate">
+    <span class="css-truncate-target">0.3.0</span>
+  </a>
+
+</form></div>
+
+<div class="discussion-sidebar-item sidebar-assignee js-discussion-sidebar-item">
+  <form accept-charset="UTF-8" action="/chieffancypants/angular-loading-bar/issues/27?partial=issues%2Fsidebar%2Fshow%2Fassignee" class="js-issue-sidebar-form" data-remote="true" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="put" /><input name="authenticity_token" type="hidden" value="SxM01UmnjQ6XvRZ1GTEqT2BPqkxvgd5e8DN9ZpqDCPaS4PG19q8/DxmcfvGGNSJH6ZzusWZimgVS8TLy6+DrvQ==" /></div>
+    
+  <h3 class="discussion-sidebar-heading">
+    Assignee
+  </h3>
+
+
+    <span class="css-truncate">
+    <img alt="@chieffancypants" class="avatar" height="20" src="https://avatars3.githubusercontent.com/u/1320204?v=3&amp;s=40" width="20" />
+    <a href="/chieffancypants/angular-loading-bar/issues/assigned/chieffancypants" class="assignee css-truncate-target">chieffancypants</a>
+</span>
+
+</form></div>
+
+
+<div id="partial-users-participants" class="discussion-sidebar-item js-socket-channel js-updatable-content"
+    data-channel="chieffancypants/angular-loading-bar:issue:24158145"
+      data-url="/chieffancypants/angular-loading-bar/issues/27/show_partial?partial=issues%2Fparticipants"
+  >
+  <div class="participation">
+
+    <h3 class="discussion-sidebar-heading">
+      3 participants
+    </h3>
+    <div class="participation-avatars">
+        <a class="participant-avatar tooltipped tooltipped-s" aria-label="chieffancypants" href="/chieffancypants"><img alt="@chieffancypants" class="avatar" height="20" src="https://avatars3.githubusercontent.com/u/1320204?v=3&amp;s=40" width="20" /> </a>
+        <a class="participant-avatar tooltipped tooltipped-s" aria-label="alexmingoia" href="/alexmingoia"><img alt="@alexmingoia" class="avatar" height="20" src="https://avatars0.githubusercontent.com/u/1112718?v=3&amp;s=40" width="20" /> </a>
+        <a class="participant-avatar tooltipped tooltipped-s" aria-label="luisrudge" href="/luisrudge"><img alt="@luisrudge" class="avatar" height="20" src="https://avatars2.githubusercontent.com/u/941075?v=3&amp;s=40" width="20" /> </a>
+    </div>
+  </div>
+</div>
+
+
+
+
+      </div>
+
+      <div class="discussion-timeline js-quote-selection-container">
+
+        <div class="js-discussion js-socket-channel" data-channel="chieffancypants/angular-loading-bar:marked-as-read:24158145">
+          
+
+  <div class="timeline-comment-wrapper js-comment-container">
+    <a href="/chieffancypants"><img alt="@chieffancypants" class="timeline-comment-avatar" height="48" src="https://avatars3.githubusercontent.com/u/1320204?v=3&amp;s=96" width="48" /></a>
+    <div id="issue-24158145"
+     class="comment previewable-edit timeline-comment js-comment js-task-list-container owner-comment"
+     data-body-version="2fc772769866f2c1095ee228314ac891">
+
+  <div class="timeline-comment-header ">
+
+
+    <span class="timeline-comment-label">Owner</span>
+
+
+  <div class="timeline-comment-header-text">
+
+    <strong>
+      <a href="/chieffancypants" class="author">chieffancypants</a>
+    </strong>
+
+    commented
+
+    <a href="#issue-24158145" class="timestamp">
+      <time datetime="2013-12-12T05:09:55Z" is="relative-time">Dec 12, 2013</time>
+    </a>
+  </div>
+</div>
+
+
+  <div class="comment-content">
+
+    <div class="edit-comment-hide">
+      <div class="comment-body markdown-body markdown-format js-comment-body">
+          <p>The bar should only appear when there is noticeable latency.  Displaying the bar on every XHR request gets repetitive, and serves very little purpose on those quick ~20ms calls.</p>
+
+<p>This change will likely break lots of tests</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+  
+
+
+      
+
+
+<div class="discussion-item discussion-item-assigned">
+  <div class="discussion-item-header" id="event-81146164">
+
+    <span class="octicon octicon-person discussion-item-icon"></span>
+    <img alt="@chieffancypants" class="avatar" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" />
+    <a href="/chieffancypants" class="author">chieffancypants</a>
+    was assigned   <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27#event-81146164" class="timestamp"><time class="timestamp" datetime="2013-12-12T05:09:55Z" is="relative-time">Dec 12, 2013</time></a>
+  </div>
+</div>
+
+
+
+
+
+      
+  <div class="discussion-item discussion-item-ref">
+    <div class="discussion-item-header" id="ref-commit-87aae00">
+      <span class="octicon octicon-bookmark discussion-item-icon"></span>
+
+      <img alt="@chieffancypants" class="avatar" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" />
+      <a href="/chieffancypants" class="author" truncate="true">chieffancypants</a>
+
+      referenced
+      this issue
+      from a commit
+      <a href="#ref-commit-87aae00" class="timestamp">
+        <time datetime="2013-12-12T05:44:26Z" is="relative-time">Dec 12, 2013</time>
+      </a>
+    </div>
+
+    <table class="timeline-commits">
+      
+
+<tr class="commit js-details-container js-socket-channel js-updatable-content"
+    data-channel="chieffancypants/angular-loading-bar:commit:87aae007656c4f4215df65dc0e28e03a5a266276"
+    data-url="/chieffancypants/angular-loading-bar/commit/87aae007656c4f4215df65dc0e28e03a5a266276/show_partial?partial=commit%2Fcondensed"
+  >
+
+  <td class="commit-icon">
+      <span class="octicon octicon-git-commit"></span>
+  </td>
+
+    <td class="commit-gravatar">
+      <a href="/chieffancypants"><img alt="@chieffancypants" class="avatar avatar-small" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" /></a>
+    </td>
+
+    <td class="commit-author">
+      <strong><a href="/chieffancypants" class="author" rel="author">chieffancypants</a></strong>
+    </td>
+
+  <td class="commit-message">
+      <code><a href="/chieffancypants/angular-loading-bar/commit/87aae007656c4f4215df65dc0e28e03a5a266276" class="message" data-pjax="true" title="issue #27: working but not configurable">issue</a> <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27" class="issue-link" title="Loading bar should only appear on noticeable latency">#27</a><a href="/chieffancypants/angular-loading-bar/commit/87aae007656c4f4215df65dc0e28e03a5a266276" class="message" data-pjax="true" title="issue #27: working but not configurable">: working but not configurable</a></code>
+
+
+  </td>
+
+  <td class="commit-meta">
+
+
+      <code><a href="/chieffancypants/angular-loading-bar/commit/87aae007656c4f4215df65dc0e28e03a5a266276" class="commit-id">87aae00</a></code>
+  </td>
+</tr>
+
+    </table>
+  </div>
+
+
+
+
+      
+  <div class="discussion-item discussion-item-ref">
+    <div class="discussion-item-header" id="ref-commit-2051f6a">
+      <span class="octicon octicon-bookmark discussion-item-icon"></span>
+
+      <img alt="@chieffancypants" class="avatar" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" />
+      <a href="/chieffancypants" class="author" truncate="true">chieffancypants</a>
+
+      referenced
+      this issue
+      from a commit
+      <a href="#ref-commit-2051f6a" class="timestamp">
+        <time datetime="2013-12-12T05:44:26Z" is="relative-time">Dec 12, 2013</time>
+      </a>
+    </div>
+
+    <table class="timeline-commits">
+      
+
+<tr class="commit js-details-container js-socket-channel js-updatable-content"
+    data-channel="chieffancypants/angular-loading-bar:commit:2051f6ae49f74b793893b893f945b6987dc5d741"
+    data-url="/chieffancypants/angular-loading-bar/commit/2051f6ae49f74b793893b893f945b6987dc5d741/show_partial?partial=commit%2Fcondensed"
+  >
+
+  <td class="commit-icon">
+      <span class="octicon octicon-git-commit"></span>
+  </td>
+
+    <td class="commit-gravatar">
+      <a href="/chieffancypants"><img alt="@chieffancypants" class="avatar avatar-small" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" /></a>
+    </td>
+
+    <td class="commit-author">
+      <strong><a href="/chieffancypants" class="author" rel="author">chieffancypants</a></strong>
+    </td>
+
+  <td class="commit-message">
+      <code><a href="/chieffancypants/angular-loading-bar/commit/2051f6ae49f74b793893b893f945b6987dc5d741" class="message" data-pjax="true" title="issue #27: now configurable!">issue</a> <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27" class="issue-link" title="Loading bar should only appear on noticeable latency">#27</a><a href="/chieffancypants/angular-loading-bar/commit/2051f6ae49f74b793893b893f945b6987dc5d741" class="message" data-pjax="true" title="issue #27: now configurable!">: now configurable!</a></code>
+
+
+  </td>
+
+  <td class="commit-meta">
+
+
+      <code><a href="/chieffancypants/angular-loading-bar/commit/2051f6ae49f74b793893b893f945b6987dc5d741" class="commit-id">2051f6a</a></code>
+  </td>
+</tr>
+
+    </table>
+  </div>
+
+
+
+
+      
+  <div class="discussion-item discussion-item-ref">
+    <div class="discussion-item-header" id="ref-commit-ba17938">
+      <span class="octicon octicon-bookmark discussion-item-icon"></span>
+
+      <img alt="@chieffancypants" class="avatar" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" />
+      <a href="/chieffancypants" class="author" truncate="true">chieffancypants</a>
+
+      referenced
+      this issue
+      from a commit
+      <a href="#ref-commit-ba17938" class="timestamp">
+        <time datetime="2013-12-12T05:45:57Z" is="relative-time">Dec 12, 2013</time>
+      </a>
+    </div>
+
+    <table class="timeline-commits">
+      
+
+<tr class="commit js-details-container js-socket-channel js-updatable-content"
+    data-channel="chieffancypants/angular-loading-bar:commit:ba17938ee47001f0b4406139b14f5a17bfaa0cb1"
+    data-url="/chieffancypants/angular-loading-bar/commit/ba17938ee47001f0b4406139b14f5a17bfaa0cb1/show_partial?partial=commit%2Fcondensed"
+  >
+
+  <td class="commit-icon">
+      <span class="octicon octicon-git-commit"></span>
+  </td>
+
+    <td class="commit-gravatar">
+      <a href="/chieffancypants"><img alt="@chieffancypants" class="avatar avatar-small" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" /></a>
+    </td>
+
+    <td class="commit-author">
+      <strong><a href="/chieffancypants" class="author" rel="author">chieffancypants</a></strong>
+    </td>
+
+  <td class="commit-message">
+      <code><a href="/chieffancypants/angular-loading-bar/commit/ba17938ee47001f0b4406139b14f5a17bfaa0cb1" class="message" data-pjax="true" title="issue #27: now configurable!">issue</a> <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27" class="issue-link" title="Loading bar should only appear on noticeable latency">#27</a><a href="/chieffancypants/angular-loading-bar/commit/ba17938ee47001f0b4406139b14f5a17bfaa0cb1" class="message" data-pjax="true" title="issue #27: now configurable!">: now configurable!</a></code>
+
+
+  </td>
+
+  <td class="commit-meta">
+
+
+      <code><a href="/chieffancypants/angular-loading-bar/commit/ba17938ee47001f0b4406139b14f5a17bfaa0cb1" class="commit-id">ba17938</a></code>
+  </td>
+</tr>
+
+    </table>
+  </div>
+
+
+
+
+      
+  <div class="discussion-item discussion-item-ref">
+    <div class="discussion-item-header" id="ref-commit-c2e59fc">
+      <span class="octicon octicon-bookmark discussion-item-icon"></span>
+
+      <img alt="@alexmingoia" class="avatar" height="16" src="https://avatars3.githubusercontent.com/u/1112718?v=3&amp;s=32" width="16" />
+      <a href="/alexmingoia" class="author" truncate="true">alexmingoia</a>
+
+      referenced
+      this issue
+      from a commit
+        in alexmingoia/angular-loading-bar
+      <a href="#ref-commit-c2e59fc" class="timestamp">
+        <time datetime="2014-01-03T05:34:18Z" is="relative-time">Jan 3, 2014</time>
+      </a>
+    </div>
+
+    <table class="timeline-commits">
+      
+
+<tr class="commit js-details-container js-socket-channel js-updatable-content"
+    data-channel="chieffancypants/angular-loading-bar:commit:c2e59fc9d81a5e68904ab5ab901138c836f8abe4"
+    data-url="/chieffancypants/angular-loading-bar/commit/c2e59fc9d81a5e68904ab5ab901138c836f8abe4/show_partial?partial=commit%2Fcondensed"
+  >
+
+  <td class="commit-icon">
+      <span class="octicon octicon-git-commit"></span>
+  </td>
+
+    <td class="commit-gravatar">
+      <a href="/alexmingoia"><img alt="@alexmingoia" class="avatar avatar-small" height="16" src="https://avatars3.githubusercontent.com/u/1112718?v=3&amp;s=32" width="16" /></a>
+    </td>
+
+    <td class="commit-author">
+      <strong><a href="/alexmingoia" class="author" rel="contributor">alexmingoia</a></strong>
+    </td>
+
+  <td class="commit-message">
+      <code><a href="/alexmingoia/angular-loading-bar/commit/c2e59fc9d81a5e68904ab5ab901138c836f8abe4" class="message" data-pjax="true" title="issue #27: now actually configurable">issue</a> <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27" class="issue-link" title="Loading bar should only appear on noticeable latency">#27</a><a href="/alexmingoia/angular-loading-bar/commit/c2e59fc9d81a5e68904ab5ab901138c836f8abe4" class="message" data-pjax="true" title="issue #27: now actually configurable">: now actually configurable</a></code>
+
+
+  </td>
+
+  <td class="commit-meta">
+
+
+      <code><a href="/alexmingoia/angular-loading-bar/commit/c2e59fc9d81a5e68904ab5ab901138c836f8abe4" class="commit-id">c2e59fc</a></code>
+  </td>
+</tr>
+
+    </table>
+  </div>
+
+
+  <div class="timeline-comment-wrapper js-comment-container">
+    <a href="/alexmingoia"><img alt="@alexmingoia" class="timeline-comment-avatar" height="48" src="https://avatars0.githubusercontent.com/u/1112718?v=3&amp;s=96" width="48" /></a>
+    <div id="issuecomment-31506473"
+     class="comment previewable-edit timeline-comment js-comment js-task-list-container "
+     data-body-version="89b791a5c6d7df4cdd8f6ccd0e8eb70c">
+
+  <div class="timeline-comment-header ">
+
+
+
+
+  <div class="timeline-comment-header-text">
+
+    <strong>
+      <a href="/alexmingoia" class="author">alexmingoia</a>
+    </strong>
+
+    commented
+
+    <a href="#issuecomment-31506473" class="timestamp">
+      <time datetime="2014-01-03T05:39:22Z" is="relative-time">Jan 3, 2014</time>
+    </a>
+  </div>
+</div>
+
+
+  <div class="comment-content">
+
+    <div class="edit-comment-hide">
+      <div class="comment-body markdown-body markdown-format js-comment-body">
+          <p>fixed the configuration... will try and wrap my head around the tests and update them this weekend.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+  <div class="timeline-comment-wrapper js-comment-container">
+    <a href="/luisrudge"><img alt="@luisrudge" class="timeline-comment-avatar" height="48" src="https://avatars2.githubusercontent.com/u/941075?v=3&amp;s=96" width="48" /></a>
+    <div id="issuecomment-31793034"
+     class="comment previewable-edit timeline-comment js-comment js-task-list-container "
+     data-body-version="2aaea9b23823870b1d99358fa50f0885">
+
+  <div class="timeline-comment-header ">
+
+
+
+
+  <div class="timeline-comment-header-text">
+
+    <strong>
+      <a href="/luisrudge" class="author">luisrudge</a>
+    </strong>
+
+    commented
+
+    <a href="#issuecomment-31793034" class="timestamp">
+      <time datetime="2014-01-07T23:56:02Z" is="relative-time">Jan 7, 2014</time>
+    </a>
+  </div>
+</div>
+
+
+  <div class="comment-content">
+
+    <div class="edit-comment-hide">
+      <div class="comment-body markdown-body markdown-format js-comment-body">
+          <p>this isn't in bower yet, right?</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+  <div class="timeline-comment-wrapper js-comment-container">
+    <a href="/chieffancypants"><img alt="@chieffancypants" class="timeline-comment-avatar" height="48" src="https://avatars3.githubusercontent.com/u/1320204?v=3&amp;s=96" width="48" /></a>
+    <div id="issuecomment-31804412"
+     class="comment previewable-edit timeline-comment js-comment js-task-list-container owner-comment"
+     data-body-version="d0b260ca8b73dfeac01f2d63c08fb5a8">
+
+  <div class="timeline-comment-header ">
+
+
+    <span class="timeline-comment-label">Owner</span>
+
+
+  <div class="timeline-comment-header-text">
+
+    <strong>
+      <a href="/chieffancypants" class="author">chieffancypants</a>
+    </strong>
+
+    commented
+
+    <a href="#issuecomment-31804412" class="timestamp">
+      <time datetime="2014-01-08T04:08:16Z" is="relative-time">Jan 8, 2014</time>
+    </a>
+  </div>
+</div>
+
+
+  <div class="comment-content">
+
+    <div class="edit-comment-hide">
+      <div class="comment-body markdown-body markdown-format js-comment-body">
+          <p><a href="https://github.com/luisrudge" class="user-mention">@luisrudge</a> nope, not yet -- still working in a separate branch for now</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+  <div class="timeline-comment-wrapper js-comment-container">
+    <a href="/chieffancypants"><img alt="@chieffancypants" class="timeline-comment-avatar" height="48" src="https://avatars3.githubusercontent.com/u/1320204?v=3&amp;s=96" width="48" /></a>
+    <div id="issuecomment-32580261"
+     class="comment previewable-edit timeline-comment js-comment js-task-list-container owner-comment"
+     data-body-version="57bc69e62c67deac0509d10a60dfa409">
+
+  <div class="timeline-comment-header ">
+
+
+    <span class="timeline-comment-label">Owner</span>
+
+
+  <div class="timeline-comment-header-text">
+
+    <strong>
+      <a href="/chieffancypants" class="author">chieffancypants</a>
+    </strong>
+
+    commented
+
+    <a href="#issuecomment-32580261" class="timestamp">
+      <time datetime="2014-01-17T04:56:12Z" is="relative-time">Jan 17, 2014</time>
+    </a>
+  </div>
+</div>
+
+
+  <div class="comment-content">
+
+    <div class="edit-comment-hide">
+      <div class="comment-body markdown-body markdown-format js-comment-body">
+          <p><a href="https://github.com/alexmingoia" class="user-mention">@alexmingoia</a> you're cool if I merge your work into my branch right?  I was gonna take a stab at the tests soon</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+  <div class="timeline-comment-wrapper js-comment-container">
+    <a href="/alexmingoia"><img alt="@alexmingoia" class="timeline-comment-avatar" height="48" src="https://avatars0.githubusercontent.com/u/1112718?v=3&amp;s=96" width="48" /></a>
+    <div id="issuecomment-32660967"
+     class="comment previewable-edit timeline-comment js-comment js-task-list-container "
+     data-body-version="f409f59fafb6dc1a838c53ac034fe582">
+
+  <div class="timeline-comment-header ">
+
+
+
+
+  <div class="timeline-comment-header-text">
+
+    <strong>
+      <a href="/alexmingoia" class="author">alexmingoia</a>
+    </strong>
+
+    commented
+
+    <a href="#issuecomment-32660967" class="timestamp">
+      <time datetime="2014-01-17T23:01:21Z" is="relative-time">Jan 17, 2014</time>
+    </a>
+  </div>
+</div>
+
+
+  <div class="comment-content">
+
+    <div class="edit-comment-hide">
+      <div class="comment-body markdown-body markdown-format js-comment-body">
+          <p><a href="https://github.com/chieffancypants" class="user-mention">@chieffancypants</a> Yes, please do :)</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+  
+
+
+      
+  <div class="discussion-item discussion-item-ref">
+    <div class="discussion-item-header" id="ref-commit-c578c17">
+      <span class="octicon octicon-bookmark discussion-item-icon"></span>
+
+      <img alt="@chieffancypants" class="avatar" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" />
+      <a href="/chieffancypants" class="author" truncate="true">chieffancypants</a>
+
+      referenced
+      this issue
+      from a commit
+      <a href="#ref-commit-c578c17" class="timestamp">
+        <time datetime="2014-01-21T22:40:01Z" is="relative-time">Jan 21, 2014</time>
+      </a>
+    </div>
+
+    <table class="timeline-commits">
+      
+
+<tr class="commit js-details-container js-socket-channel js-updatable-content"
+    data-channel="chieffancypants/angular-loading-bar:commit:c578c17fa0f0343efc2e1ebde116d1dbef4a91ae"
+    data-url="/chieffancypants/angular-loading-bar/commit/c578c17fa0f0343efc2e1ebde116d1dbef4a91ae/show_partial?partial=commit%2Fcondensed"
+  >
+
+  <td class="commit-icon">
+      <span class="octicon octicon-git-commit"></span>
+  </td>
+
+    <td class="commit-gravatar">
+      <a href="/chieffancypants"><img alt="@chieffancypants" class="avatar avatar-small" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" /></a>
+    </td>
+
+    <td class="commit-author">
+      <strong><a href="/chieffancypants" class="author" rel="author">chieffancypants</a></strong>
+    </td>
+
+  <td class="commit-message">
+      <code><a href="/chieffancypants/angular-loading-bar/commit/c578c17fa0f0343efc2e1ebde116d1dbef4a91ae" class="message" data-pjax="true" title="issue #27: fixing tests, and bumping angular libs
+
+Added angular libs via bower so I don't have to do this again">issue</a> <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27" class="issue-link" title="Loading bar should only appear on noticeable latency">#27</a><a href="/chieffancypants/angular-loading-bar/commit/c578c17fa0f0343efc2e1ebde116d1dbef4a91ae" class="message" data-pjax="true" title="issue #27: fixing tests, and bumping angular libs
+
+Added angular libs via bower so I don't have to do this again">: fixing tests, and bumping angular libs</a></code>
+
+        <span class="hidden-text-expander inline">
+          <a href="#" class="js-details-target">&hellip;</a>
+        </span>
+        <div class="commit-desc"><pre>Added angular libs via bower so I don't have to do this again</pre></div>
+
+  </td>
+
+  <td class="commit-meta">
+
+
+      <code><a href="/chieffancypants/angular-loading-bar/commit/c578c17fa0f0343efc2e1ebde116d1dbef4a91ae" class="commit-id">c578c17</a></code>
+  </td>
+</tr>
+
+    </table>
+  </div>
+
+
+
+
+      
+  <div class="discussion-item discussion-item-ref">
+    <div class="discussion-item-header" id="ref-commit-153144a">
+      <span class="octicon octicon-bookmark discussion-item-icon"></span>
+
+      <img alt="@chieffancypants" class="avatar" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" />
+      <a href="/chieffancypants" class="author" truncate="true">chieffancypants</a>
+
+      referenced
+      this issue
+      from a commit
+      <a href="#ref-commit-153144a" class="timestamp">
+        <time datetime="2014-01-21T22:40:01Z" is="relative-time">Jan 21, 2014</time>
+      </a>
+    </div>
+
+    <table class="timeline-commits">
+      
+
+<tr class="commit js-details-container js-socket-channel js-updatable-content"
+    data-channel="chieffancypants/angular-loading-bar:commit:153144ab2879e22c3ba8cad7333465cdc2457fbe"
+    data-url="/chieffancypants/angular-loading-bar/commit/153144ab2879e22c3ba8cad7333465cdc2457fbe/show_partial?partial=commit%2Fcondensed"
+  >
+
+  <td class="commit-icon">
+      <span class="octicon octicon-git-commit"></span>
+  </td>
+
+    <td class="commit-gravatar">
+      <a href="/chieffancypants"><img alt="@chieffancypants" class="avatar avatar-small" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" /></a>
+    </td>
+
+    <td class="commit-author">
+      <strong><a href="/chieffancypants" class="author" rel="author">chieffancypants</a></strong>
+    </td>
+
+  <td class="commit-message">
+      <code><a href="/chieffancypants/angular-loading-bar/commit/153144ab2879e22c3ba8cad7333465cdc2457fbe" class="message" data-pjax="true" title="issue #27: added $timeout.flush to tests
+
+The extra $timout.flush() accounts for the latency threshold">issue</a> <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27" class="issue-link" title="Loading bar should only appear on noticeable latency">#27</a><a href="/chieffancypants/angular-loading-bar/commit/153144ab2879e22c3ba8cad7333465cdc2457fbe" class="message" data-pjax="true" title="issue #27: added $timeout.flush to tests
+
+The extra $timout.flush() accounts for the latency threshold">: added $timeout.flush to tests</a></code>
+
+        <span class="hidden-text-expander inline">
+          <a href="#" class="js-details-target">&hellip;</a>
+        </span>
+        <div class="commit-desc"><pre>The extra $timout.flush() accounts for the latency threshold</pre></div>
+
+  </td>
+
+  <td class="commit-meta">
+
+
+      <code><a href="/chieffancypants/angular-loading-bar/commit/153144ab2879e22c3ba8cad7333465cdc2457fbe" class="commit-id">153144a</a></code>
+  </td>
+</tr>
+
+    </table>
+  </div>
+
+
+
+
+      
+  <div class="discussion-item discussion-item-ref">
+    <div class="discussion-item-header" id="ref-commit-711c080">
+      <span class="octicon octicon-bookmark discussion-item-icon"></span>
+
+      <img alt="@chieffancypants" class="avatar" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" />
+      <a href="/chieffancypants" class="author" truncate="true">chieffancypants</a>
+
+      referenced
+      this issue
+      from a commit
+      <a href="#ref-commit-711c080" class="timestamp">
+        <time datetime="2014-01-21T22:40:01Z" is="relative-time">Jan 21, 2014</time>
+      </a>
+    </div>
+
+    <table class="timeline-commits">
+      
+
+<tr class="commit js-details-container js-socket-channel js-updatable-content"
+    data-channel="chieffancypants/angular-loading-bar:commit:711c0807ff37f03036c2655451c5e4cf29774e67"
+    data-url="/chieffancypants/angular-loading-bar/commit/711c0807ff37f03036c2655451c5e4cf29774e67/show_partial?partial=commit%2Fcondensed"
+  >
+
+  <td class="commit-icon">
+      <span class="octicon octicon-git-commit"></span>
+  </td>
+
+    <td class="commit-gravatar">
+      <a href="/chieffancypants"><img alt="@chieffancypants" class="avatar avatar-small" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" /></a>
+    </td>
+
+    <td class="commit-author">
+      <strong><a href="/chieffancypants" class="author" rel="author">chieffancypants</a></strong>
+    </td>
+
+  <td class="commit-message">
+      <code><a href="/chieffancypants/angular-loading-bar/commit/711c0807ff37f03036c2655451c5e4cf29774e67" class="message" data-pjax="true" title="issue #27: fixing merge conflicts">issue</a> <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27" class="issue-link" title="Loading bar should only appear on noticeable latency">#27</a><a href="/chieffancypants/angular-loading-bar/commit/711c0807ff37f03036c2655451c5e4cf29774e67" class="message" data-pjax="true" title="issue #27: fixing merge conflicts">: fixing merge conflicts</a></code>
+
+
+  </td>
+
+  <td class="commit-meta">
+
+
+      <code><a href="/chieffancypants/angular-loading-bar/commit/711c0807ff37f03036c2655451c5e4cf29774e67" class="commit-id">711c080</a></code>
+  </td>
+</tr>
+
+    </table>
+  </div>
+
+
+
+
+      
+  <div class="discussion-item discussion-item-ref">
+    <div class="discussion-item-header" id="ref-commit-f1d5a62">
+      <span class="octicon octicon-bookmark discussion-item-icon"></span>
+
+      <img alt="@chieffancypants" class="avatar" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" />
+      <a href="/chieffancypants" class="author" truncate="true">chieffancypants</a>
+
+      referenced
+      this issue
+      from a commit
+      <a href="#ref-commit-f1d5a62" class="timestamp">
+        <time datetime="2014-01-21T22:40:01Z" is="relative-time">Jan 21, 2014</time>
+      </a>
+    </div>
+
+    <table class="timeline-commits">
+      
+
+<tr class="commit js-details-container js-socket-channel js-updatable-content"
+    data-channel="chieffancypants/angular-loading-bar:commit:f1d5a62d9d075722ac088f751165330fc588ed78"
+    data-url="/chieffancypants/angular-loading-bar/commit/f1d5a62d9d075722ac088f751165330fc588ed78/show_partial?partial=commit%2Fcondensed"
+  >
+
+  <td class="commit-icon">
+      <span class="octicon octicon-git-commit"></span>
+  </td>
+
+    <td class="commit-gravatar">
+      <a href="/chieffancypants"><img alt="@chieffancypants" class="avatar avatar-small" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" /></a>
+    </td>
+
+    <td class="commit-author">
+      <strong><a href="/chieffancypants" class="author" rel="author">chieffancypants</a></strong>
+    </td>
+
+  <td class="commit-message">
+      <code><a href="/chieffancypants/angular-loading-bar/commit/f1d5a62d9d075722ac088f751165330fc588ed78" class="message" data-pjax="true" title="issue #27: minor clarifing comment">issue</a> <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27" class="issue-link" title="Loading bar should only appear on noticeable latency">#27</a><a href="/chieffancypants/angular-loading-bar/commit/f1d5a62d9d075722ac088f751165330fc588ed78" class="message" data-pjax="true" title="issue #27: minor clarifing comment">: minor clarifing comment</a></code>
+
+
+  </td>
+
+  <td class="commit-meta">
+
+
+      <code><a href="/chieffancypants/angular-loading-bar/commit/f1d5a62d9d075722ac088f751165330fc588ed78" class="commit-id">f1d5a62</a></code>
+  </td>
+</tr>
+
+    </table>
+  </div>
+
+
+  <div class="timeline-comment-wrapper js-comment-container">
+    <a href="/chieffancypants"><img alt="@chieffancypants" class="timeline-comment-avatar" height="48" src="https://avatars3.githubusercontent.com/u/1320204?v=3&amp;s=96" width="48" /></a>
+    <div id="issuecomment-32973161"
+     class="comment previewable-edit timeline-comment js-comment js-task-list-container owner-comment"
+     data-body-version="77389eed4d0999e191961b0bac9a3041">
+
+  <div class="timeline-comment-header ">
+
+
+    <span class="timeline-comment-label">Owner</span>
+
+
+  <div class="timeline-comment-header-text">
+
+    <strong>
+      <a href="/chieffancypants" class="author">chieffancypants</a>
+    </strong>
+
+    commented
+
+    <a href="#issuecomment-32973161" class="timestamp">
+      <time datetime="2014-01-21T22:47:49Z" is="relative-time">Jan 21, 2014</time>
+    </a>
+  </div>
+</div>
+
+
+  <div class="comment-content">
+
+    <div class="edit-comment-hide">
+      <div class="comment-body markdown-body markdown-format js-comment-body">
+          <p>This one should be all set guys.  Let me know if you encounter any weirdness.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  </div>
+  
+
+
+      
+
+
+<div class="discussion-item discussion-item-closed">
+  <div class="discussion-item-header" id="event-87713614">
+
+    <span class="octicon octicon-circle-slash discussion-item-icon"></span>
+    <img alt="@chieffancypants" class="avatar" height="16" src="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=32" width="16" />
+    <a href="/chieffancypants" class="author">chieffancypants</a>
+    closed this   <a href="https://github.com/chieffancypants/angular-loading-bar/issues/27#event-87713614" class="timestamp"><time class="timestamp" datetime="2014-01-21T22:47:49Z" is="relative-time">Jan 21, 2014</time></a>
+  </div>
+</div>
+
+  <div class="closed-banner"></div>
+
+
+
+
+
+<!-- Rendered timeline since 2014-01-21 14:47:49 -->
+<div id="partial-timeline-marker"
+      class="js-timeline-marker js-socket-channel js-updatable-content"
+      data-channel="chieffancypants/angular-loading-bar:issue:24158145"
+      data-url="/chieffancypants/angular-loading-bar/issues/27/show_partial?partial=issues%2Ftimeline_marker&amp;since=1390344469"
+      data-mark-as-read-url="/chieffancypants/angular-loading-bar/notifications/mark?ids=21919232"
+      data-last-modified="Tue, 21 Jan 2014 22:47:49 GMT">
+</div>
+
+
+        </div>
+
+          <div class="discussion-timeline-actions">
+                <div class="signed-out-comment">
+	<a href="/join" class="btn btn-primary" rel="nofollow">Sign up for free</a>
+	<strong>to join this conversation on GitHub</strong>.
+	Already have an account?
+	<a href="/login?return_to=%2Fchieffancypants%2Fangular-loading-bar%2Fissues%2F27" rel="nofollow">Sign in to comment</a>
+</div>
+
+
+          </div>
+      </div>
+
+    </div>
+    <div class="clear"></div>
+  </div>
+
+</div>
+
+
+        </div>
+
+      </div><!-- /.repo-container -->
+      <div class="modal-backdrop"></div>
+    </div><!-- /.container -->
+  </div><!-- /.site -->
+
+
+    </div><!-- /.wrapper -->
+
+      <div class="container">
+  <div class="site-footer" role="contentinfo">
+    <ul class="site-footer-links right">
+        <li><a href="https://status.github.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+      <li><a href="https://developer.github.com" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li><a href="https://training.github.com" data-ga-click="Footer, go to training, text:training">Training</a></li>
+      <li><a href="https://shop.github.com" data-ga-click="Footer, go to shop, text:shop">Shop</a></li>
+        <li><a href="https://github.com/blog" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+        <li><a href="https://github.com/about" data-ga-click="Footer, go to about, text:about">About</a></li>
+
+    </ul>
+
+    <a href="https://github.com" aria-label="Homepage">
+      <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+</a>
+    <ul class="site-footer-links">
+      <li>&copy; 2015 <span title="0.14752s from github-fe130-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
+        <li><a href="https://github.com/site/terms" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
+        <li><a href="https://github.com/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
+        <li><a href="https://github.com/security" data-ga-click="Footer, go to security, text:security">Security</a></li>
+        <li><a href="https://github.com/contact" data-ga-click="Footer, go to contact, text:contact">Contact</a></li>
+    </ul>
+  </div>
+</div>
+
+
+    <div class="fullscreen-overlay js-fullscreen-overlay" id="fullscreen_overlay">
+  <div class="fullscreen-container js-suggester-container">
+    <div class="textarea-wrap">
+      <textarea name="fullscreen-contents" id="fullscreen-contents" class="fullscreen-contents js-fullscreen-contents" placeholder=""></textarea>
+      <div class="suggester-container">
+        <div class="suggester fullscreen-suggester js-suggester js-navigation-container"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fullscreen-sidebar">
+    <a href="#" class="exit-fullscreen js-exit-fullscreen tooltipped tooltipped-w" aria-label="Exit Zen Mode">
+      <span class="mega-octicon octicon-screen-normal"></span>
+    </a>
+    <a href="#" class="theme-switcher js-theme-switcher tooltipped tooltipped-w"
+      aria-label="Switch themes">
+      <span class="octicon octicon-color-mode"></span>
+    </a>
+  </div>
+</div>
+
+
+
+    
+    
+
+    <div id="ajax-error-message" class="flash flash-error">
+      <span class="octicon octicon-alert"></span>
+      <a href="#" class="octicon octicon-x flash-close js-ajax-error-dismiss" aria-label="Dismiss error"></a>
+      Something went wrong with that request. Please try again.
+    </div>
+
+
+      <script crossorigin="anonymous" src="https://assets-cdn.github.com/assets/frameworks-68c41efebc976764e6b82e425124ad913abbe691b87d1681debeb2554e8a0d3a.js"></script>
+      <script async="async" crossorigin="anonymous" src="https://assets-cdn.github.com/assets/github/index-ad229583f8ae63957c818c72fb84eda3eda58bdf2b0cedc7da58b4c561bb939f.js"></script>
+      
+      
+  </body>
+</html>
+

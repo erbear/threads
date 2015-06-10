@@ -1,0 +1,819 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>AK2 - testy</title>
+        <style type="text/css">
+          html,body,div,span,h1,h2,p,a,strong,ul,li,fieldset,form,label {
+          background:transparent;
+          border:0;
+          font-size:100%;
+          margin:0;
+          padding:0;
+          vertical-align:baseline;
+          }
+          p{ text-align: center;}
+          body {
+          color:#222;
+          font-family:'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+          font-size:8pt;
+          line-height:1;
+          padding-top:20px;
+          }
+
+          #container {
+          margin:auto;
+          width:800px;
+          }
+
+          #main {
+          background-color:#f5f5f5;
+          overflow:hidden;
+          padding:10px 0;
+          position:relative;
+          }
+          
+          .orly {
+          border: 2px dashed #888;
+          position:relative;
+          }
+          
+          #questions div.orly span.notice {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: red;
+          }
+
+          a {
+          color:#1f75cc;
+          }
+
+          a:hover {
+          text-decoration:underline;
+          }
+
+          strong {
+          font-weight:700;
+          }
+
+          div.info {
+          position:absolute;
+          right:10px;
+          top:15px;
+          }
+
+          h1 {
+          color:#1f75cc;
+          font-size:12pt;
+          font-weight:700;
+          padding:5px 0 15px 15px;
+          }
+
+
+          h1 span {
+          color:#aaa;
+          font-size:6pt;
+          }
+
+
+          #foot {
+          color:#aaa;
+          font-size:8pt;
+          padding:10px 15px;
+          }
+
+          #foot a {
+          font-size:8pt;
+          }
+
+          #foot p.copy {
+          float:right;
+          text-align:right;
+          width:250px;
+          padding-bottom: 20px;
+          }
+          
+          h1 {
+            color: red;
+            font-size: 15pt;
+            text-align: center;
+          }
+
+
+
+          input[type=button] {
+          -webkit-border-radius:4px;
+          background-color:#4e4e4e;
+          border:none;
+          color:#f2f2f2;
+          padding:5px 10px;
+          }
+
+          #questions {
+            padding: 15px;
+            list-style:none;
+          }
+          #questions div {
+            margin-top: 10px;
+            padding: 10px 0 10px 10px;
+          }
+
+          #questions div ul {
+              list-style: none;
+              padding-left: 10px;
+              padding-top: 10px;
+          }
+
+          #questions div ul li {
+              padding: 5px 0;
+          }
+
+          #questions div span {
+              color:#1f75cc;
+              font-size:10pt;
+              font-weight:700;
+              padding:5px 5px 0 5px ;
+          }
+
+
+          #questions div .correct_show {
+              background-color: #aeed91;
+              font-weight: bold;
+          }
+
+          #questions .good {
+              background-color: #aeed91;
+          }
+
+          #questions .bad {
+              background-color: #f3b6b7;
+          }
+
+
+          .control {
+              text-align: center;
+              padding-bottom: 10px;
+          }
+
+          .score {
+              text-align: center;
+              font-weight: bold;
+              font-size: 11pt;
+              padding-bottom: 10px;
+          }
+
+          p.info {
+              padding: 10px 30px 0 30px;
+          }
+        </style>
+        
+        <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js' type='text/javascript'></script> 
+
+        <script type="text/javascript">
+        (function($){
+
+        	$.fn.shuffle = function() {
+        		return this.each(function(){
+        			var items = $(this).children().clone(true);
+        			return (items.length) ? $(this).html($.shuffle(items)) : this;
+        		});
+        	}
+
+        	$.shuffle = function(arr) {
+        		for(var j, x, i = arr.length; i; j = parseInt(Math.random() * i), x = arr[--i], arr[i] = arr[j], arr[j] = x);
+        		return arr;
+        	}
+
+        })(jQuery);
+        $(function(){
+          
+          $(".orly").append("<span class='notice'>niepewne!</span>")
+          
+          var params = document.location.href.split("?")[1]
+          if(params == "full"){
+            $(".control").hide()
+            $(".correct").addClass("correct_show")
+          } else {
+            var n = 5;
+            if(params){
+              var tmp = params.split("=")
+              if(tmp[0] == "n") n = parseInt(tmp[1])
+            }
+            
+            
+          var showed = false
+
+          $("#show_correct").click(function(){
+                if(showed){
+                    $(".correct_show").removeClass("correct_show")
+                    $(this).val("Pokaż poprawne odpowiedzi")
+                  } else {
+                      $(".correct").addClass("correct_show")
+                      $(this).val("Ukryj poprawne odpowiedzi")
+                  }
+
+                  showed = !showed
+              })
+          
+          
+          var questions = $("#questions").shuffle().children()
+          questions.hide();
+          if(n > questions.size()) n = questions.size();
+          for(var i=0; i<n; i++){
+            var j = Math.floor(Math.random()*questions.size())
+            var e = questions[j]
+            if(e.style.display == "none"){
+              $(e).show().find("ul").shuffle()
+            } else {
+              i--;
+            }
+          }
+          
+          $("#check_score").click(function(){
+            questions.each(function(){
+              if(this.style.display == "block"){
+                if(correct(this)) $(this).removeClass("bad").addClass("good")
+                else  $(this).removeClass("good").addClass("bad")
+              }
+            })
+            return false;
+          })
+          
+          function XOR(a,b){
+              return (a && !b) || (!a && b)
+          }
+          
+          function correct(e){
+            var x = true;
+            $(e).find("li").each(function(){
+              if(XOR($(this).hasClass("correct"), $(this).children("input")[0].checked)) {
+                x = false
+                return false;
+              }
+            })
+            
+            return x;
+          }
+        }
+        })
+        </script>
+
+      </head>
+      <body>
+        <div id="container">
+          <h1>ODPOWIEDZI POPRAWIONE, W RAZIE CZEGO <a href="http://infeka2009.pl/viewtopic.php?f=66&t=1211&p=17791#p17791">PISAĆ NA FORUM</a></h1>
+          <p>
+            Na podstawie <a href="http://www.speedyshare.com/files/29045512/biernat2.0he.pdf">http://www.speedyshare.com/files/29045512/biernat2.0he.pdf</a> | <a href="?full">Baza pytań</a>
+          </p>
+        <div id="questions">
+
+
+<div class="orly">
+<span>Procesor ma architekturę akumulatorową . Wskaż rozkazy spoza listy tego procesora.</span>
+<ul>
+<li class="correct"><input type="checkbox">bgt Rx, Ry, offset</li>
+<li class="correct"><input type="checkbox">or Rx, Ry, A</li>
+<li><input type="checkbox">add Rx</li>
+<li class="correct"><input type="checkbox">load A, [Rz]</li>
+<li><input type="checkbox">push Rx</li>
+<li class="correct"><input type="checkbox">sub Rx, #3, A</li>
+<li class="correct"><input type="checkbox">load Rx, [A]</li>
+
+</ul>
+</div>
+<div class="orly">
+<span>Procesor ma architekturę rejestrową L/S. Wskaż rozkazy spoza listy tego procesora.</span>
+<ul>
+<li><input type="checkbox">bgt Rx, Ry, offset</li>
+<li class="correct"><input type="checkbox">nand Rx, Ry, A</li>
+<li class="correct"><input type="checkbox">add Rx, #1, Rz</li>
+<li><input type="checkbox">store Rx, [Rz]</li>
+</ul>
+</div>
+<div class="orly">
+<span>Procesor ma architekturę rejestr-pamięć. Wskaż rozkazy spoza listy tego procesora.</span>
+<ul>
+<li class="correct"><input type="checkbox">bgt offset</li>
+<li><input type="checkbox">or [Rx], Ry</li>
+<li class="correct"><input type="checkbox">add Rx, [Ry], Rz</li>
+<li><input type="checkbox">load A, [Rx, Rz]</li>
+</ul>
+</div>
+<div class="orly">
+<span>Aktualizacja linii bufora pamięci podręcznej o organizacji wielodrożnej (blokowo-skojarzeniowej) następuje w trybie „allocate on write”. Chybienie podczas zapisu:</span>
+<ul>
+<li><input type="checkbox">wywołuje efekt migotania</li>
+<li class="correct"><input type="checkbox">wymusza wymianę linii</li>
+<li><input type="checkbox">powoduje zapis linii do bufora zapisu</li>
+<li><input type="checkbox">jest skutkiem błędnej prognozy skoku</li>
+<li><input type="checkbox">powoduje przestój potoku</li>
+<li><input type="checkbox">powoduje zmianę markowania linii</li>
+</ul>
+</div>
+
+    <div>
+    <span>Aktualizacja linii bufora pamięci podręcznej o organizacji wielodrożnej (blokowo-skojarzeniowej) następuje w trybie „allocate on write”. Jeżeli wszystkie linie są wypełnione, to chybienie podczas zapisu:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">wymusza wymianę linii</li>
+    <li><input type="checkbox">jest skutkiem błędnej prognozy skoku</li>
+    <li><input type="checkbox">powoduje unieważnienie bufora</li>
+    <li><input type="checkbox">powoduje zapis argumentu do pamięci głównej (RAM)</li>
+    </ul>
+    </div>
+
+<!--<div>
+<span>Aktualizacja linii bufora pamięci podręcznej o organizacji blokowo-skojarzeniowej (wielodrożnej) następuje w trybie „no allocate on write”. Chybienie podczas odczytu:</span>
+<ul>
+<li class="correct"><input type="checkbox">zawsze wymusza wypełnienie linii</li>
+<li><input type="checkbox">powoduje unieważnienie linii</li>
+<li><input type="checkbox">powoduje zmianę markowania linii</li>
+<li class="correct"><input type="checkbox">powoduje przestój potoku</li>
+</ul>
+</div>-->
+
+    <div>
+    <span>Aktualizacja linii bufora pamięci podręcznej o organizacji asocjacyjnej następuje w trybie "no allocate on write". Chybienie podczas odczytu</span>
+    <ul>
+    <li><input type="checkbox">Powoduje unieważnienie linii chybionej</li>
+    <li class="correct"><input type="checkbox">Powoduje zmianę markowania przypadkowej linii</li>
+    <li class="correct"><input type="checkbox">Wymusza wypełnienie linii</li>
+    <li><input type="checkbox">Powoduje przestój potoku</li>
+    </ul>
+    </div>
+
+
+    <div>
+    <span>Sterownik bufora pamięci podręcznej o organizacji blokowo-skojarzeniowej (wielodrożnej) działa w trybie "allocate on write". Jeśli wszystkie linie są wypełnione, to wymiana linii następuje wskutek:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">Chybienia podczas zapisu</li>
+    <li><input type="checkbox">Błędnej prognozy skoku</li>
+    <li><input type="checkbox">Wywołania procedury jak wyżej.</li>
+    <li><input type="checkbox">Trafienia podczas odczytu</li>
+    </ul>
+    </div>
+    <div>
+    <span>Sterownik bufora pamięci podręcznej o organizacji asocjacyjnej działa w trybie "no allocate on write". Jeśli niektóre linie są unieważnione, to skutkiem chybienia podczas odczytu jest:</span>
+    <ul>
+    <li><input type="checkbox">Unieważnienie linii chybionej</li>
+    <li class="correct"><input type="checkbox">Wypełnienie jednej z unieważnionych linii</li>
+    <li class="correct"><input type="checkbox">Usunięcie jednej spośród unieważnionych linii</li>
+    <li class="correct"><input type="checkbox">Przestój potoku</li>
+    </ul>
+    </div>
+
+
+
+    <div>
+    <span>Linie pamieci podręcznej z odwzorowaniem bezpośrednim, wyposażonej w bufor zapisu są aktualizowane w trybie „allocate on write”. Chybienie podczas zapisu::</span>
+    <ul>
+    <li class="correct"><input type="checkbox">Wymusza wymianę linii</li>
+    <li class="correct"><input type="checkbox">Powoduje wyjatek</li>
+    <li><input type="checkbox">Powoduje blokadę bufora zapisu</li>
+    <li><input type="checkbox">Powoduje przestój potoku</li>
+    </ul>
+    </div>
+    
+    <div>
+    <span>Linie bufora pamięci podręcznej z odwzorowaniem bezpośrednim są aktualizowane w trybie "no allocate on write”. Wymiana linii jest skutkiem:</span>
+    <ul>
+    <li><input type="checkbox">chybienia podczas zapisu</li>
+    <li class="correct"><input type="checkbox">zapełnienia bufora zapisu</li>
+    <li class="correct"><input type="checkbox">chybienia podczas odczytu</li>
+    <li class="correct"><input type="checkbox">pobrania antycypowanego</li>
+    <!--<li><input type="checkbox">błędnej prognozy skoku</li>-->
+    </ul>
+    </div>
+
+
+
+    <div>
+    <span>Statyczna prognoza rozgałęzień (skoków):</span>
+    <ul>
+      <li><input type="checkbox">Musi być wykonana przed dekodowaniem</li>
+      <li class="correct"><input type="checkbox">Jest oparta na przeslankach statycznych </li>
+      <li class="correct"><input type="checkbox">Nie jest weryfikowana podczas dekodowania </li>
+      <li class="correct"><input type="checkbox">Jest skuteczna dla skoku bezwarunkowego</li>
+      <li><input type="checkbox">Powoduje przestoj w potoku rozkazow </li>
+      <li><input type="checkbox">Gwarantuje poprawne wykonanie skoku w tyl </li>
+      <li><input type="checkbox">Jest skuteczna dla skoku pośredniego (np. jmp *ebx+)</li>
+    </ul>
+    </div>
+
+
+
+    <div>
+    <span>Dynamiczna prognoza rozgałęzień (skoków):</span>
+    <ul>
+    <li class="correct"><input type="checkbox">Jest nieskuteczna dla rozkazu skoku w przód </li>
+    <li><input type="checkbox">Jest weryfikowana podczas dekodowania </li>
+    <li class="correct"><input type="checkbox">Jest skuteczna dla skoku bezwarunkowego </li>
+    <li class="correct"><input type="checkbox">Może byd polaczona z prognoza statyczna</li>
+    <li class="correct"><input type="checkbox">Jest weryfikowana w etapie wykonania </li>
+    <li><input type="checkbox">Jest skuteczna dla rozkazu powrotu (RET) </li>
+    <li class="correct"><input type="checkbox">Jest oparta na historii wykonywania skoku </li>
+    <li class="correct"><input type="checkbox">Jest oparta na częstości wykonywania skoku </li>
+    <li class="correct"><input type="checkbox">Musi poprzedac dekodowanie rozkazu</li>
+    </ul>
+    </div>
+
+    <div>
+    <span>Bufor prognozy skoków BTB jest aktualizowany:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">po wykonaniu każdego skoku warunkowego</li>
+    <li><input type="checkbox">podczas prognozy wykonania</li>
+    <li class="correct"><input type="checkbox">podczas wykonania rozkazu skoku</li>
+    <li><input type="checkbox">przed wykonaniem rozkazu skoku</li>
+    <li><input type="checkbox">podczas dekodowania rozkazu skoku</li>
+    <li><input type="checkbox">zgodnie z regułą 90/50</li>
+    </ul>
+    </div>
+
+    <div>
+    <span>Linia bufora BTB zawiera następujące informacje:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">adres rozkazu skoku</li>
+    <li><input type="checkbox">adres względny skoku</li>
+    <li><input type="checkbox">bity używalności tej linii</li>
+    <li><input type="checkbox">kod rozkazu skoku</li>
+    <li><input type="checkbox">kod prognozy skoku</li>
+    <li><input type="checkbox">bit obecności kodu skoku w pamięci</li>
+    <li><input type="checkbox">bit prognozy statycznej</li>
+    </ul>
+    </div>
+
+
+    <div>
+    <span>Skutkiem trafienia w buforze prognozy skoków BTB jest:</span>
+    <ul>
+    <li><input type="checkbox">wykonanie rozkazu skoku</li>
+    <li><input type="checkbox">obliczenie adresu docelowego skoku</li>
+    <li><input type="checkbox">ustalenie warunku</li>
+    <li><input type="checkbox">zmiana bitu kierunku skoku (w przód/w tył)</li>
+    </ul>
+    </div>
+    <div>
+    <span>Skutkiem chybienia w buforze prognozy skoku (BTB) jest:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">wykonanie skoku</li>
+    <li class="correct"><input type="checkbox">Wymuszenie zmiany zawartości licznika rozkazow</li>
+    <li class="correct"><input type="checkbox">zmiana adresu docelowego skoku</li>
+    <li class="correct"><input type="checkbox">wypełnienie lub wymiana linii bufora</li>
+    </ul>
+    </div>
+<div class="orly">
+<span>Maksymalny rozmiar wirtualnej przestrzeni adresowej zależy od:</span>
+<ul>
+<li><input type="checkbox">rozmiaru strony</li>
+<li class="correct"><input type="checkbox">rozmiaru wskaźników adresowych (nie jestem pewny)</li>
+<li class="correct"><input type="checkbox">dopuszczalnej liczby procesów</li>
+<li><input type="checkbox">zakresu relokacji</li>
+<li><input type="checkbox">rozmiaru bufora TLB</li>
+<li><input type="checkbox">pojemności pamięci wtórnej (dysku)</li>
+<li><input type="checkbox">rozmiaru przestrzeni rzeczywistej</li>
+<li><input type="checkbox">pojemności pamięci głównej</li>
+<li><input type="checkbox">maksymalnego rozmiaru partycji</li>
+</ul>
+</div>
+
+<div class="orly">
+<span>Rozmiar logicznej przestrzeni adresowej zależy od:</span>
+<ul>
+<li><input type="checkbox">dopuszczalnej liczby procesów</li>
+<li class="correct"><input type="checkbox">rozmiaru wskaźników adresowych</li>
+<li class="correct"><input type="checkbox">rozmiaru segmentów</li>
+<li class="correct"><input type="checkbox">maksymalnego rozmiaru partycji</li>
+</ul>
+</div>
+
+
+
+
+    <div>
+    <span>W bloku aktywacji funkcji na stosie są umieszczone:</span>
+    <ul>
+      <li><input type="checkbox">Kod rozkazu wywolania Call </li>
+      <li class="correct"><input type="checkbox">Zmienne lokalne funkcji</li>
+      <li><input type="checkbox">Wskaźniki struktur globalnych</li>
+      <li class="correct"><input type="checkbox">Słowo stanu procesora</li>
+      <li class="correct"><input type="checkbox">Adres powrotu </li>
+      <li><input type="checkbox">Wskaźnik poziomu zagnieżdżenia </li>
+      <li><input type="checkbox">Zmienne globalne </li>
+      <li><input type="checkbox">Kod rozkazu powrotu RET</li>
+      <li><input type="checkbox">Licznik rekurencji </li>
+      <li class="correct"><input type="checkbox">Wskaźnik lokalnych struktur danych tej funkcji </li>
+      <li class="correct"><input type="checkbox">Poprzedni stan wskaźnika stosu</li>
+      <li><input type="checkbox">Kopie wszystkich rejestrow procesora </li>
+      <li><input type="checkbox">Adres kodu funkcji </li>
+      <li><input type="checkbox">Kod rozkazu wywolania funkcji </li>
+      <li class="correct"><input type="checkbox">Zmienne lokalne funkcji lub wskazniki </li>
+      <li><input type="checkbox">Wskaźniki statycznych struktur globalnych</li>
+      <li class="correct"><input type="checkbox">Parametry wywolania funkcji </li>
+      <li><input type="checkbox">Tryb adresowania zmiennych lokallnych </li>
+      <li><input type="checkbox">Zwracana wartośd funkcji</li>
+    </ul>
+    </div>
+    
+    
+    <div>
+    <span>W bloku sterującym (PCB) każdego aktywnego procesu przechowywane są:</span>
+    <ul>
+    <li><input type="checkbox">stos programowy</li>
+    <li><input type="checkbox">pełny kontekst procesora</li>
+    <li class="correct"><input type="checkbox">rozmiar zbioru roboczego procesu</li>
+    <li><input type="checkbox">wskaźnik rekurencji procesu</li>
+    <li><input type="checkbox">wskaźnik powiązania procesu</li>
+    <li><input type="checkbox">kontekst pamięci każdego procesu</li>
+    <li><input type="checkbox">zbiór roboczy procesu</li>
+    <li class="correct"><input type="checkbox">minimalny kontekst procesora</li>
+    <li><input type="checkbox">wskaźnik zagnieżdżenia procesu</li>
+    <li class="correct"><input type="checkbox">wskaźnik kontekstu pamięci</li>
+    </ul>
+    </div>
+
+    <div>
+    <span>Minimalny kontekst procesora aktywnego procesu zawiera:</span>
+    <ul>
+    <li><input type="checkbox">Pełny kontekst procesora</li>
+    <li><input type="checkbox">Wskaźnik zagnieżdżenia procesu</li>
+    <li class="correct"><input type="checkbox">Słowo stanu procesora</li>
+    <li><input type="checkbox">Stan rejestru akumulatora</li>
+    </ul>
+    </div>
+
+
+    <div>
+    <span>Charakterystycznymi cechami architektury klasy RISC są:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">duża liczba rejestrów</li>
+    <li><input type="checkbox">rozbudowane tryby adresowania</li>
+    <li class="correct"><input type="checkbox">niewielka liczba rozkazów</li>
+    <li class="correct"><input type="checkbox">ustalony rozmiar kodu rozkazu</li>
+    <li><input type="checkbox">specjalne rejestry adresowe</li>
+    <li class="correct"><input type="checkbox">proste tryby adresowania</li>
+    <li class="correct"><input type="checkbox">specjalne rozkazy dostępu do pamięci</li>
+    </ul>
+    </div>
+    <div>
+    <span>Charakterystycznymi cechami architektury klasy CISC są:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">użycie rejestru akumulatora</li>
+    <li class="correct"><input type="checkbox">rozbudowane tryby adresowania</li>
+    <li><input type="checkbox">niewielka liczba rozkazów</li>
+    <li><input type="checkbox">jednolita struktura kodów rozkazów</li>
+    <li class="correct"><input type="checkbox">ograniczona używalność rejestrów</li>
+    <li><input type="checkbox">stosowa architektura procesora</li>
+    <li class="correct"><input type="checkbox">zmienny rozmiar kodu rozkazu</li>
+    </ul>
+    </div>
+
+
+
+
+    <div>
+    <span>W formacie zmiennoprzecinkowym pojedynczej precyzji liczbami znormalizowanymi są:</span>
+    <ul>
+    <li><input type="checkbox">zero</li>
+    <li><input type="checkbox">nieskończoność</li>
+    <li class="correct"><input type="checkbox">(1)1001,101 w U2</li>
+    <li class="correct"><input type="checkbox">3,14159</li>
+    <li><input type="checkbox">2^(–131)</li>
+    <li class="correct"><input type="checkbox">–1</li>
+    <li class="correct"><input type="checkbox">2,73</li>
+    </ul>
+    </div>
+    <div>
+    <span>W formacie zmiennoprzecinkowym pojedynczej precyzji liczbami zdenormalizowanymi są:</span>
+    <ul>
+    <li><input type="checkbox">zero</li>
+    <li><input type="checkbox">nieskończoność</li>
+    <li><input type="checkbox">1+∞^(-1)</li>
+    <li><input type="checkbox">3,24159^(-5)</li>
+    <li><input type="checkbox">32^(-2031)</li>
+    <li><input type="checkbox">16^41 (2^164)</li>
+    <li class="correct"><input type="checkbox">2^–131</li>
+    </ul>
+    </div>
+    <div>
+    <span>W formacie zmiennoprzecinkowym podwójnej precyzji liczbami znormalizowanymi są:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">-1</li>
+    <li class="correct"><input type="checkbox">e = 2,718282</li>
+    <li class="correct"><input type="checkbox">8^44 (2^132)</li>
+    <li><input type="checkbox">Log2(log2(1))</li>
+    <li class="correct"><input type="checkbox">Sin pi/2</li>
+    </ul>
+    </div>
+    <div>
+    <span>W formacie zmiennoprzecinkowym podwójnej precyzji liczbami zdenormalizowanymi są:</span>
+    <ul>
+    <li><input type="checkbox">zero</li>
+    <li><input type="checkbox">nieskończoność</li>
+    <li><input type="checkbox">3,14159^–5</li>
+    <li><input type="checkbox">0,00000000000001</li>
+    <li><input type="checkbox">π^(–1) = 0,318309</li>
+    <li><input type="checkbox">2^(–1131)</li>
+    </ul>
+    </div>
+
+
+
+
+
+
+
+<div class="orly">
+<span>Przerwania nieprecyzyjne są skutkiem:</span>
+<ul>
+<li><input type="checkbox">braku strony w pamięci</li>
+<li><input type="checkbox">żądań obsługi we/wy</li>
+<li><input type="checkbox">wyjątków programowych</li>
+<li class="correct"><input type="checkbox">krytycznych błędów sprzętu</li>
+</ul>
+</div>
+    <div>
+    <span>Przerwania precyzyjne są skutkiem:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">braku strony na dysku</li>
+    <li class="correct"><input type="checkbox">wyjątków programowych</li>
+    <li class="correct"><input type="checkbox">żądań obsługi we/we</li>
+    </ul>
+    </div>
+    <div>
+    <span>Żądanie obsługi we/wy może byś sygnalizowane jako:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">Przerwanie precyzyjne</li>
+    <li><input type="checkbox">Wyjątek programowy</li>
+    <li class="correct"><input type="checkbox">Żądanie transmisji DMA</li>
+    </ul>
+    </div>
+    
+<div class="orly">
+<span>Błąd jednostki zmiennoprzecinkowej jest sygnalizowany jako:</span>
+<ul>
+<li class="correct"><input type="checkbox">przerwanie precyzyjne</li>
+<li class="correct"><input type="checkbox">wyjątek programowy</li>
+<li><input type="checkbox">wywołanie systemowe</li>
+</ul>
+</div>
+
+<div class="orly">
+<span>Skutkiem braku danej strony w pamięci jest:</span>
+<ul>
+<li class="correct"><input type="checkbox">wyjątek</li>
+<li><input type="checkbox">przerwanie nieprecyzyjne</li>
+<li><input type="checkbox">przerwanie niemaskowalne</li>
+<li><input type="checkbox">przerwanie programowe</li>
+</ul>
+</div>
+
+    <div>
+    <span>Przerwanie programowe jest:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">Synchroniczne z programem</li>
+    <li><input type="checkbox">Skutkiem braku strony w pamięci</li>
+    <li><input type="checkbox">Skutkiem wystąpienia wyjątku</li>
+    </ul>
+    </div>
+
+    <div>
+    <span>Skutkiem normalizacji wyniku dzielenia zmiennoprzecinkowego może być:</span>
+    <ul>
+    <li><input type="checkbox">nadmiar zmiennoprzecinkowy</li>
+    <li class="correct"><input type="checkbox">niedomiar zmiennoprzecinkowy</li>
+    <li><input type="checkbox">nieskończoność</li>
+    </ul>
+    </div>
+    
+    <div>
+    <span>Skutkiem normalizacji wyniku mnożenia zmiennoprzecinkowego może być:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">nadmiar zmiennoprzecinkowy</li>
+    <li><input type="checkbox">niedomiar zmiennoprzecinkowy</li>
+    <li><input type="checkbox">nieskończoność</li>
+    </ul>
+    </div>
+    
+    <div>
+    <span>Skutkiem normalizacji wyniku dodawania zmiennoprzecinkowego może być:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">nadmiar zmiennoprzecinkowy</li>
+    <li class="correct"><input type="checkbox">niedomiar zmiennoprzecinkowy</li>
+    <li class="correct"><input type="checkbox">utrata dokładności</li>
+    </ul>
+    </div>
+    
+    <div>
+    <span>Skutkiem normalizacji wyniku odejmowania zmiennoprzecinkowego może być:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">nadmiar zmiennoprzecinkowy</li>
+    <li class="correct"><input type="checkbox">niedomiar zmiennoprzecinkowy</li>
+    <li><input type="checkbox">NaN</li>
+    </ul>
+    </div>
+
+    <div>
+    <span>Deskryptor strony odwróconej tablicy stron zawiera: </span>
+    <ul>
+    <li><input type="checkbox">Bity obecności, używalności i zapisu </li>
+    <li class="correct"><input type="checkbox">Wirtualny numer strony </li>
+    <li class="correct"><input type="checkbox">Skrót wirtualnego numeru (adresu) strony</li>
+    <li class="correct"><input type="checkbox">Adres strony rzeczywistej</li>
+    </ul>
+    </div>
+
+    <div>
+    <span>Deskryptor ramki strony odwróconej tablicy stron zawiera</span>
+    <ul>
+    <li class="correct"><input type="checkbox">Bity obecności, używalności i zapisu </li>
+    <li class="correct"><input type="checkbox">Numer strony wirtualnej </li>
+    <li><input type="checkbox">Rozmiar ramki </li>
+    <li><input type="checkbox">Adres rzeczywisty ramki</li>
+    </ul>
+    </div>
+
+
+    <div>
+    <span>Deskryptor strony w pełnej tablicy stron zawiera:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">Bity obecności, używalności i zapisu</li>
+    <li class="correct"><input type="checkbox">Uprawnienia dostępu do strony</li>
+    <li><input type="checkbox">Skrót wirtualnego numeru (adresu) strony</li>
+    <li class="correct"><input type="checkbox">Numer (adres) ramki strony w pamięci głównej</li>
+    <li><input type="checkbox">Kod rozmiaru strony</li>
+    </ul>
+    </div>
+
+    <div>
+    <span>Deskryptor strony w buforze tablicy stron (TLB) zawiera:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">Bity obecności, używalności i zapisu</li>
+    <li class="correct"><input type="checkbox">Skrót rzeczywistego numeru strony</li>
+    <li class="correct"><input type="checkbox">Pełny wirtualny numer strony</li>
+    <li><input type="checkbox">Adres partycji, na której zlokalizowana jest strona</li>
+    <li><input type="checkbox">Adres strony na dysku</li>
+    <li><input type="checkbox">Wskaźnik wypełnienia strony</li>
+    </ul>
+    </div>
+
+
+
+    <div>
+    <span>Wyjątek jest skutkiem:</span>
+    <ul>
+    <li class="correct"><input type="checkbox">braku strony na dysku</li>
+    <li class="correct"><input type="checkbox">błędu programowego</li>
+    <li><input type="checkbox">żądania obsługi we/wy</li>
+    </ul>
+    </div>
+
+
+<div class="orly">
+<span>Wystąpienie nadmiaru w dodawaniu w kodzie uzupełnieniowym U2 jest sygnalizowane jako:</span>
+<ul>
+<li><input type="checkbox">przeniesienie równe 0</li>
+<li><input type="checkbox">wskaźnik znaku równy 0</li>
+<li><input type="checkbox">wystąpienie wyjątku</li>
+<li class="correct"><input type="checkbox">przeniesienie równe 1</li>
+</ul>
+</div>
+
+<div class="orly">
+<span>Przekroczenie zakresu w odejmowaniu w kodzie znak-moduł jest sygnalizowane:</span>
+<ul>
+<li class="correct"><input type="checkbox">jako przeniesienie równe 1</li>
+<li><input type="checkbox">jako bit znaku równy 1</li>
+<li><input type="checkbox">jako wskaźnik nadmiaru równy 1</li>
+<li><input type="checkbox">gdy znaki argumentów są jednakowe</li>
+</ul>
+</div>
+
+<div class="orly">
+<span>Przekroczenie zakresu w dodawaniu i odejmowaniu w kodzie uzupełnieniowym U2 sygnalizuje:</span>
+<ul>
+<li><input type="checkbox">wskaźnik znaku</li>
+<li class="correct"><input type="checkbox">wskaźnik nadmiaru</li>
+<li class="correct"><input type="checkbox">wskaźnik przeniesienia</li>
+<li><input type="checkbox">przeniesienie równe 0</li>
+</ul>
+</div>
+
+<div class="orly">
+<span>Przekroczenie zakresu w dodawaniu i odejmowaniu w naturalnym kodzie binarnym sygnalizuje: </span>
+<ul>
+<li><input type="checkbox">wskaźnik znaku</li>
+<li class="correct"><input type="checkbox">wskaźnik nadmiaru</li>
+<li><input type="checkbox">wskaźnik przeniesienia</li>
+<li class="correct"><input type="checkbox">przeniesienie równe 1</li>
+</ul>
+</div>
+
+</div>
+
+<div class='score'></div> 
+<div class='control'> 
+  <input id='show_correct' type='button' value='Pokaż poprawne odpowiedzi' /> 
+  <input id='check_score' type='button' value='Sprawdź' /> 
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xml:lang="en-US">
+  <id>tag:github.com,2008:/chieffancypants/angular-loading-bar/commits/master</id>
+  <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commits/master"/>
+  <link type="application/atom+xml" rel="self" href="https://github.com/chieffancypants/angular-loading-bar/commits/master.atom"/>
+  <title>Recent Commits to angular-loading-bar:master</title>
+  <updated>2015-05-26T21:00:20-07:00</updated>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/f112b44c73c802a6f9eb5fea0273a31cc4a03593</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/f112b44c73c802a6f9eb5fea0273a31cc4a03593"/>
+    <title>
+        Added CDN URL
+    </title>
+    <updated>2015-05-26T21:00:20-07:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Added CDN URL&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/cff758a426d86662a626f6c4066b665024efe5d4</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/cff758a426d86662a626f6c4066b665024efe5d4"/>
+    <title>
+        Merge pull request #200 from aaronroberson/master
+    </title>
+    <updated>2015-05-26T20:43:32-07:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Merge pull request #200 from aaronroberson/master
+
+Added support for Browserify/Webpack&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/a363cc0c897741d8eb0c9efb7264e0a0ed5be316</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/a363cc0c897741d8eb0c9efb7264e0a0ed5be316"/>
+    <title>
+        Updated require to build instead of src
+    </title>
+    <updated>2015-05-18T16:40:44-07:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars3.githubusercontent.com/u/440189?v=3&amp;s=30"/>
+    <author>
+      <name>aaronroberson</name>
+      <uri>https://github.com/aaronroberson</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Updated require to build instead of src&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/791d6172deacd5b0b53fd2f3884ee43d568ffb32</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/791d6172deacd5b0b53fd2f3884ee43d568ffb32"/>
+    <title>
+        Added support for Browserify/Webpack
+    </title>
+    <updated>2015-05-18T12:15:47-07:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars3.githubusercontent.com/u/440189?v=3&amp;s=30"/>
+    <author>
+      <name>aaronroberson</name>
+      <uri>https://github.com/aaronroberson</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Added support for Browserify/Webpack&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/2da2c7a9495f490c74f86e8e17c4ab6dbbd8c44e</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/2da2c7a9495f490c74f86e8e17c4ab6dbbd8c44e"/>
+    <title>
+        closes #184: change border radius to 50%
+    </title>
+    <updated>2015-04-27T11:03:19-07:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>closes #184: change border radius to 50%&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/a6e1a6b18038c30b028166624f3b37575313ef4c</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/a6e1a6b18038c30b028166624f3b37575313ef4c"/>
+    <title>
+        #193: make readme more clear
+    </title>
+    <updated>2015-04-27T10:27:35-07:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>#193: make readme more clear&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/6309a1c26c905656f8057696f31f728d875d3f8a</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/6309a1c26c905656f8057696f31f728d875d3f8a"/>
+    <title>
+        #155: Clearly document $http&#39;s method signature
+    </title>
+    <updated>2015-03-03T11:01:54-08:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>#155: Clearly document $http&#39;s method signature
+
+The method signature for $http.get is different from $http.post&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/786bf74fdf1b55090262449574986b09bd5fb4fd</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/786bf74fdf1b55090262449574986b09bd5fb4fd"/>
+    <title>
+        bump version 0.7.1
+    </title>
+    <updated>2015-02-24T10:11:58-08:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>bump version 0.7.1&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/449eaa262b870adb71689d56e5788e716fbe8435</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/449eaa262b870adb71689d56e5788e716fbe8435"/>
+    <title>
+        improvements on #133
+    </title>
+    <updated>2015-02-24T09:35:16-08:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>improvements on #133&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/5a77fcd77e49fef5b2d6a680f1c0b80273a3551b</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/5a77fcd77e49fef5b2d6a680f1c0b80273a3551b"/>
+    <title>
+        bump version 0.7.0
+    </title>
+    <updated>2015-02-17T09:26:26-08:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>bump version 0.7.0&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/7ce8a1f6e9b94c2df117814883780247b1dc8e65</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/7ce8a1f6e9b94c2df117814883780247b1dc8e65"/>
+    <title>
+        Merge pull request #170 from assisrafael/master
+    </title>
+    <updated>2015-02-17T09:15:39-08:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Merge pull request #170 from assisrafael/master
+
+Changes all instances of $animate.enter() to follow angular 1.3.x semantics without breaking 1.2.x&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/25f7e2699f25980de20aca4dacbacacd54c45066</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/25f7e2699f25980de20aca4dacbacacd54c45066"/>
+    <title>
+        Merge pull request #133 from gdi2290/patch-2
+    </title>
+    <updated>2015-02-17T09:09:42-08:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Merge pull request #133 from gdi2290/patch-2
+
+feat(responseError): log error if not config&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/718d25caa5f51f5c55891c970da334310dacff2e</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/718d25caa5f51f5c55891c970da334310dacff2e"/>
+    <title>
+        New build
+    </title>
+    <updated>2015-02-13T21:28:31+01:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1799825?v=3&amp;s=30"/>
+    <author>
+      <name>assisrafael</name>
+      <uri>https://github.com/assisrafael</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>New build&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/c21a146a60bbc65bc495cb50d437b3f97d68c684</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/c21a146a60bbc65bc495cb50d437b3f97d68c684"/>
+    <title>
+        Changes all instances of $animate.enter() to follow angular 1.3.x semantics without breaking 1.2.x
+    </title>
+    <updated>2015-02-13T21:13:15+01:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1799825?v=3&amp;s=30"/>
+    <author>
+      <name>assisrafael</name>
+      <uri>https://github.com/assisrafael</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Changes all instances of $animate.enter() to follow angular 1.3.x semantics without breaking 1.2.x&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/3b5201275ba3dac2d8b9b32f494ed2a6605ca20e</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/3b5201275ba3dac2d8b9b32f494ed2a6605ca20e"/>
+    <title>
+        feat(responseError): log error if not config
+    </title>
+    <updated>2014-11-03T17:34:18-08:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/1016365?v=3&amp;s=30"/>
+    <author>
+      <name>gdi2290</name>
+      <uri>https://github.com/gdi2290</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>feat(responseError): log error if not config
+
+How&#39;s this?&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/3231cd9855b2eded204d1d784f2daf95cd1902f3</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/3231cd9855b2eded204d1d784f2daf95cd1902f3"/>
+    <title>
+        issue #126: adding angular as regular dependency
+    </title>
+    <updated>2014-11-03T16:58:49-08:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>issue #126: adding angular as regular dependency&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/954ebe037c614466b599d23dcd27cf2f2f30f782</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/954ebe037c614466b599d23dcd27cf2f2f30f782"/>
+    <title>
+        Merge pull request #128 from timmckenzie/master
+    </title>
+    <updated>2014-10-26T15:59:13-04:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Merge pull request #128 from timmckenzie/master
+
+Returning XHR request with cfpLoadingBar:loaded&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/aff0ff65ab5a2b650b646f1d3dd15d4292248fc0</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/aff0ff65ab5a2b650b646f1d3dd15d4292248fc0"/>
+    <title>
+        Missed build/ directory
+    </title>
+    <updated>2014-10-16T15:03:01-07:00</updated>
+    <media:thumbnail height="30" width="30" url="https://0.gravatar.com/avatar/53e8f162a63afc9a88ba439717a37b21?d=https%3A%2F%2Fassets-cdn.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&amp;r=x&amp;s=30"/>
+    <author>
+      <name></name>
+      <email>timm@radware.com</email>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Missed build/ directory&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/6cfedb13897422fad2410c989d9cca308e4d99b0</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/6cfedb13897422fad2410c989d9cca308e4d99b0"/>
+    <title>
+        Returning XHR request with cfpLoadingBar:loaded
+    </title>
+    <updated>2014-10-16T14:36:49-07:00</updated>
+    <media:thumbnail height="30" width="30" url="https://0.gravatar.com/avatar/53e8f162a63afc9a88ba439717a37b21?d=https%3A%2F%2Fassets-cdn.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&amp;r=x&amp;s=30"/>
+    <author>
+      <name></name>
+      <email>timm@radware.com</email>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Returning XHR request with cfpLoadingBar:loaded&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/9015398813555eafd122d4b5aa541cc02eceeacb</id>
+    <link type="text/html" rel="alternate" href="https://github.com/chieffancypants/angular-loading-bar/commit/9015398813555eafd122d4b5aa541cc02eceeacb"/>
+    <title>
+        bump version 0.6.0
+    </title>
+    <updated>2014-09-18T16:51:43-04:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars0.githubusercontent.com/u/1320204?v=3&amp;s=30"/>
+    <author>
+      <name>chieffancypants</name>
+      <uri>https://github.com/chieffancypants</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>bump version 0.6.0&lt;/pre>
+    </content>
+  </entry>
+</feed>
