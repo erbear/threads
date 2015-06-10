@@ -64,14 +64,9 @@ pthread_t * worker_threads, screen_thread, *parse_threads;
 int *worker_threads_args, *parse_threads_args;
 int threadsNumber = 10;
 pthread_mutex_t files_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t files_download_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t parsed_file_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t parsed_file_mutex1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t screen_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t screen_cond = PTHREAD_COND_INITIALIZER;
-pthread_cond_t download_cond = PTHREAD_COND_INITIALIZER;
-pthread_cond_t parse_cond = PTHREAD_COND_INITIALIZER;
-
 
 int screen_width;
 int screen_height;
@@ -135,7 +130,9 @@ void *parse(void *params){
     bool founded = false;
 
 
+    pthread_mutex_lock(&screen_mutex);
     strcpy(parseStatuses[id]->status, "File search");
+    pthread_mutex_unlock(&screen_mutex);
     for (int i=0; i<parseElements.size(); i++){
       if (!parseElements[i]->parsed){
         elementNumber = i;
@@ -148,7 +145,9 @@ void *parse(void *params){
     }
 
     if (founded){
+      pthread_mutex_lock(&screen_mutex);
       strcpy(parseStatuses[id]->status, "Founded");
+      pthread_mutex_unlock(&screen_mutex);
       ifstream inFile;
 
       //read from file
@@ -165,7 +164,10 @@ void *parse(void *params){
       string tekst, tekstOut = "";
       std::ofstream out;
 
+      pthread_mutex_lock(&screen_mutex);
       strcpy(parseStatuses[id]->status, "Parsing...");
+      pthread_mutex_unlock(&screen_mutex);
+
       while( getline( strStream, tekst ) )
       {
         smatch wynik; // tutaj będzie zapisany wynik
@@ -177,9 +179,11 @@ void *parse(void *params){
           tekstOut.append(tad.append("\n"));
         }
       }
+      pthread_mutex_lock(&screen_mutex);
       strcpy(parseStatuses[id]->status, "Saving new links");
+      pthread_mutex_unlock(&screen_mutex);
       pthread_mutex_lock(&files_queue_mutex);
-      out.open("file1.txt", ios::app);
+      out.open(plik1, ios::app);
       out << tekstOut << "\n";
       pthread_mutex_unlock(&files_queue_mutex);
     }
@@ -455,7 +459,5 @@ int main(int argc, char const *argv[]){
     wait_for_worker_threads();
     wait_for_screen_thread();
 
-
-    // printf("\nzrobiłem już chyba wszystko...");
 }
 
