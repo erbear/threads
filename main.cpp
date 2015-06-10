@@ -62,7 +62,7 @@ bool sortFunction(linkEl *pierwszy, linkEl *drugi){
 
 pthread_t * worker_threads, screen_thread, *parse_threads;
 int *worker_threads_args, *parse_threads_args;
-int threadsNumber = 3;
+int threadsNumber = 10;
 pthread_mutex_t files_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t files_download_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t parsed_file_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -203,7 +203,10 @@ void *download(void *params)
       int i = 0;
       bool founded = false;
 
+      pthread_mutex_lock(&screen_mutex);
       strcpy(downloadStatuses[id]->status, "Searching for links");
+      pthread_mutex_unlock(&screen_mutex);
+
       pthread_mutex_lock(&files_queue_mutex);
       pthread_mutex_lock(&screen_mutex);
 
@@ -243,11 +246,17 @@ void *download(void *params)
       pthread_mutex_unlock(&files_queue_mutex);
 
       if (!founded) {
+
+        pthread_mutex_lock(&screen_mutex);
         strcpy(downloadStatuses[id]->status, "Waaiting");
+        pthread_mutex_unlock(&screen_mutex);
       }
       else {
 
+        pthread_mutex_lock(&screen_mutex);
         strcpy(downloadStatuses[id]->status, "Downloading");
+        pthread_mutex_unlock(&screen_mutex);
+
         // download
         CURL *curl = curl_easy_init();
         if(curl){
@@ -282,6 +291,8 @@ void *download(void *params)
               threadFile->done = true;
               add_link(threadFile->uniq, threadFile->url);
             } else {
+
+              strcpy(downloadStatuses[id]->status, "ERROR OCCURED");
               threadFile->error = true;
             }
             pthread_mutex_unlock(&screen_mutex);
@@ -297,7 +308,10 @@ void *download(void *params)
           strcpy(toParse->path, threadFile->path);
           toParse->parsed = false;
 
+          pthread_mutex_lock(&screen_mutex);
           strcpy(downloadStatuses[id]->status, "Adding to parse");
+          pthread_mutex_unlock(&screen_mutex);
+
           pthread_mutex_lock(&parsed_file_mutex);
           parseElements.push_back(toParse);
           pthread_mutex_unlock(&parsed_file_mutex);
@@ -312,28 +326,28 @@ void paint(){
   int x = 0;
   int y = 0;
   double percent;
-  int secondColumn = 100;
 
+  mvprintw(y, x, "Parsing threads");
+  mvprintw(y, x+50, "Downloading threads");
+  y += 2;
   for (int i=0; i<parseStatuses.size(); i++){
-    mvprintw(y, x, "%d. %-50s", i, parseStatuses[i]->status);
-    mvprintw(y, x+40, "%d. %-50s", i, downloadStatuses[i]->status);
-    y = y+1;
+    mvprintw(y, x+1, "%d. %-50s", i, parseStatuses[i]->status);
+    mvprintw(y, x+51, "%d. %-50s", i, downloadStatuses[i]->status);
+    y += 1;
   }
-  mvprintw(y, x+40, "%-50s", "List of files");
-  mvprintw(y, x+secondColumn, "%-50s", "|");
-  mvprintw(y+1, x+secondColumn, "%-50s", "|");
-  mvprintw(y, x+secondColumn+40, "%-50s", "Scores");
-  y = y+2;
-  mvprintw(y, x+secondColumn, "%-50s", "|");
+
+  y += 5;
+  mvprintw(y, x, "%-50s", "List of downloads");
+  y += 2;
+
   for (int i = 0; i<allFiles.size(); i++)
   {
     clrtoeol();
 
     if (allFiles[i]->error){
-      // attron(COLOR_PAIR(3));
-      // mvprintw(y, x, "%-50s",  allFiles[i]->error_msg);
-      // attroff(COLOR_PAIR(3));
-      // mvprintw(y, x+secondColumn, "%-50s", "|");
+      attron(COLOR_PAIR(3));
+      mvprintw(y, x+10, "%-50s",  "ERROR!");
+      attroff(COLOR_PAIR(3));
     }
     else{
 
@@ -354,13 +368,15 @@ void paint(){
       //   mvprintw(y, x, "DONE!");
       //   mvprintw(y, x+10, "%3d. %-50s", i+1, allFiles[i]->url);
       // }
-      mvprintw(y, x+secondColumn, "%-50s", "|");
     }
   }
 
-  y=2;
+  y = threadsNumber * 2 + 15;
+
+  mvprintw(y, x, "%-50s", "Scores");
+  y += 2;
   for (int i = 0; i<sortedFiles.size(); i++){
-    mvprintw(y, x+secondColumn+2, "%3d. %-50s", sortedFiles[i]->rank, sortedFiles[i]->url);
+    mvprintw(y, x, "%3d. %-50s", sortedFiles[i]->rank, sortedFiles[i]->url);
     y++;
   }
   // for (int i = 0; i<parseElements.size(); i++){
