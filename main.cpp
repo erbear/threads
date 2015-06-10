@@ -36,18 +36,37 @@ struct linkEl
   int uniq;
   char url[1000];
   int rank;
+  bool parsed;
 };
 
-pthread_t * worker_threads, screen_thread;
-int *worker_threads_args;
+struct parseEl
+{
+  char path[1000];
+  bool parsed;
+};
+
+struct downloadStatus {
+  int id;
+  char status[1000];
+};
+
+struct parseStatus {
+  int id;
+  char status[1000];
+};
+
+pthread_t * worker_threads, screen_thread, *parse_threads;
+int *worker_threads_args, *parse_threads_args;
 int threadsNumber = 3;
 pthread_mutex_t files_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t files_download_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t parsed_file_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t parsed_file_mutex1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t screen_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t screen_cond = PTHREAD_COND_INITIALIZER;
 pthread_cond_t download_cond = PTHREAD_COND_INITIALIZER;
+pthread_cond_t parse_cond = PTHREAD_COND_INITIALIZER;
 
-bool running = true;
 
 int screen_width;
 int screen_height;
@@ -56,6 +75,9 @@ int screen_y;
 
 std::vector<down_file*> allFiles;
 std::vector<linkEl*> sortedFiles;
+std::vector<parseEl*> parseElements;
+std::vector<downloadStatus*> downloadStatuses;
+std::vector<parseStatus*> parseStatuses;
 
 void add_link(int uniq, char *url){
   bool appears = false;
@@ -80,7 +102,6 @@ void * download_progress_func(down_file * f, double t, double d, double ultotal,
     pthread_mutex_lock(&screen_mutex);
     f->total = t;
     f->downloaded = d;
-    running = true;
     pthread_cond_signal(&screen_cond);
     pthread_mutex_unlock(&screen_mutex);
     return NULL;
@@ -101,13 +122,73 @@ char * get_filename(char * str){
   }
   return NULL;
 }
+void *parse(void *params){
+  int id = *((int *)params);
+  strcpy(parseStatuses[id]->status, "Created");
+  while (true){
+    int elementNumber;
+    bool founded = false;
 
+
+    strcpy(parseStatuses[id]->status, "File search");
+    for (int i=0; i<parseElements.size(); i++){
+      if (!parseElements[i]->parsed){
+        elementNumber = i;
+        founded = true;
+
+        pthread_mutex_lock(&parsed_file_mutex);
+        parseElements[i]->parsed = true;
+        pthread_mutex_unlock(&parsed_file_mutex);
+      }
+    }
+
+    if (founded){
+      strcpy(parseStatuses[id]->status, "Founded");
+      ifstream inFile;
+
+      //read from file
+
+      pthread_mutex_lock(&parsed_file_mutex);
+      inFile.open(parseElements[elementNumber]->path);//open the input file
+      pthread_mutex_unlock(&parsed_file_mutex);
+
+      stringstream strStream;
+      strStream << inFile.rdbuf();//read the file
+      string str = strStream.str();//str holds the content of the file
+
+      int line;
+      string tekst, tekstOut = "";
+      std::ofstream out;
+
+      strcpy(parseStatuses[id]->status, "Parsing...");
+      while( getline( strStream, tekst ) )
+      {
+        smatch wynik; // tutaj będzie zapisany wynik
+        ++line;
+        if( regex_search( tekst, wynik, pattern ) ){
+          string tad = wynik.str();
+          tad.erase(tad.begin());
+          tad.erase(tad.end() - 1);
+          tekstOut.append(tad.append("\n"));
+        }
+      }
+      strcpy(parseStatuses[id]->status, "Saving new links");
+      pthread_mutex_lock(&files_queue_mutex);
+      out.open("file1.txt", ios::app);
+      out << tekstOut << "\n";
+      pthread_mutex_unlock(&files_queue_mutex);
+    }
+    else {
+      strcpy(parseStatuses[id]->status, "Waiting");
+    }
+  }
+}
 void *download(void *params)
 {
+  int id = *((int *)params);
+  strcpy(downloadStatuses[id]->status, "Created");
     while (true){
 
-      pthread_mutex_lock(&files_queue_mutex);
-      pthread_mutex_lock(&screen_mutex);
       down_file *threadFile;
       char tmp_path[1000];
       char currentFile[1000];
@@ -117,8 +198,11 @@ void *download(void *params)
       int i = 0;
       bool founded = false;
 
-      FILE * file = fopen(plik1, "r+");
+      strcpy(downloadStatuses[id]->status, "Searching for links");
+      pthread_mutex_lock(&files_queue_mutex);
+      pthread_mutex_lock(&screen_mutex);
 
+      FILE * file = fopen(plik1, "r+");
       FILE * tmp_file = fopen("tmp_file1.txt", "w");
 
       if(file != NULL){
@@ -142,7 +226,6 @@ void *download(void *params)
           }
         }
       } else {
-          printf("File '%s' not found\n", plik1);
       }
 
       fclose(file);
@@ -155,9 +238,11 @@ void *download(void *params)
       pthread_mutex_unlock(&files_queue_mutex);
 
       if (!founded) {
-        pthread_cond_wait(&download_cond, &files_download_mutex);
+        strcpy(downloadStatuses[id]->status, "Waaiting");
       }
       else {
+
+        strcpy(downloadStatuses[id]->status, "Downloading");
         // download
         CURL *curl = curl_easy_init();
         if(curl){
@@ -194,7 +279,6 @@ void *download(void *params)
             } else {
               threadFile->error = true;
             }
-            running = true;
             pthread_mutex_unlock(&screen_mutex);
             pthread_mutex_unlock(&files_queue_mutex);
           }
@@ -203,40 +287,16 @@ void *download(void *params)
           fclose(outfile);
           curl_easy_cleanup(curl);
 
-          ifstream inFile;
+          parseEl *toParse;
+          toParse = new parseEl;
+          strcpy(toParse->path, threadFile->path);
+          toParse->parsed = false;
 
-          //read from file
+          strcpy(downloadStatuses[id]->status, "Adding to parse");
+          pthread_mutex_lock(&parsed_file_mutex);
+          parseElements.push_back(toParse);
+          pthread_mutex_unlock(&parsed_file_mutex);
 
-          pthread_mutex_lock(&screen_mutex);
-          pthread_mutex_lock(&files_queue_mutex);
-          inFile.open(threadFile->path);//open the input file
-
-          stringstream strStream;
-          strStream << inFile.rdbuf();//read the file
-          string str = strStream.str();//str holds the content of the file
-
-          pthread_mutex_unlock(&screen_mutex);
-          pthread_mutex_unlock(&files_queue_mutex);
-
-          int line;
-          string tekst;
-          std::ofstream out;
-          out.open("file1.txt", ios::app);
-          while( getline( strStream, tekst ) )
-          {
-            smatch wynik; // tutaj będzie zapisany wynik
-            ++line;
-            if( regex_search( tekst, wynik, pattern ) ){
-              string tad = wynik.str();
-              tad.erase(tad.begin());
-              tad.erase(tad.end() - 1);
-
-              pthread_mutex_lock(&files_queue_mutex);
-              out << tad << "\n";
-              pthread_mutex_unlock(&files_queue_mutex);
-            }
-          }
-          pthread_cond_signal(&download_cond);
         }
       }
     }
@@ -249,6 +309,11 @@ void paint(){
   double percent;
   int secondColumn = 100;
 
+  for (int i=0; i<parseStatuses.size(); i++){
+    mvprintw(y, x, "%d. %-50s", i, parseStatuses[i]->status);
+    mvprintw(y, x+40, "%d. %-50s", i, downloadStatuses[i]->status);
+    y = y+1;
+  }
   mvprintw(y, x+40, "%-50s", "List of files");
   mvprintw(y, x+secondColumn, "%-50s", "|");
   mvprintw(y+1, x+secondColumn, "%-50s", "|");
@@ -292,6 +357,10 @@ void paint(){
     mvprintw(y, x+secondColumn+2, "%3d. %-50s", sortedFiles[i]->rank, sortedFiles[i]->url);
     y++;
   }
+  // for (int i = 0; i<parseElements.size(); i++){
+  //   mvprintw(y, x+200, "%3d. %-50s", parseElements[i]->parsed, parseElements[i]->path);
+  //   y++;
+  // }
   refresh();
 }
 void * screen_function(void * _arg) {
@@ -322,9 +391,9 @@ void * screen_function(void * _arg) {
 }
 void wait_for_worker_threads(){
     for(int i=0; i<threadsNumber; i++){
-        pthread_join(worker_threads[i], NULL);
+      pthread_join(worker_threads[i], NULL);
+      pthread_join(parse_threads[i], NULL);
     }
-    running = false;
 }
 
 void wait_for_screen_thread(){
@@ -334,11 +403,22 @@ void wait_for_screen_thread(){
 void create_threads(int number){
     worker_threads = new pthread_t[number];
     worker_threads_args = new int[number];
+    parse_threads = new pthread_t[number];
+    parse_threads_args = new int[number];
 
     for(int i=0; i<threadsNumber; i++){
       worker_threads_args[i] = i;
+      downloadStatus * dst = new downloadStatus;
+      downloadStatuses.push_back(dst);
       pthread_create(worker_threads + i, NULL, download, worker_threads_args + i);
+
+
+      parse_threads_args[i] = i;
+      parseStatus * pst = new parseStatus;
+      parseStatuses.push_back(pst);
+      pthread_create(parse_threads + i, NULL, parse, parse_threads_args + i);
     }
+
 }
 void create_screen(){
     pthread_create(&screen_thread, NULL, screen_function, NULL);
