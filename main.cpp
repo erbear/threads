@@ -42,6 +42,7 @@ pthread_t * worker_threads, screen_thread;
 int *worker_threads_args;
 int threadsNumber = 3;
 pthread_mutex_t files_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t files_download_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t screen_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t screen_cond = PTHREAD_COND_INITIALIZER;
 pthread_cond_t download_cond = PTHREAD_COND_INITIALIZER;
@@ -101,7 +102,7 @@ char * get_filename(char * str){
   return NULL;
 }
 
-void *sort(void *params)
+void *download(void *params)
 {
     while (true){
 
@@ -153,89 +154,91 @@ void *sort(void *params)
       pthread_mutex_unlock(&screen_mutex);
       pthread_mutex_unlock(&files_queue_mutex);
 
-      if (!founded) break;
-      // download
-      CURL *curl = curl_easy_init();
-      if(curl){
-        sprintf(tmp_path, "/tmp/download-%d-%d.tmp", getpid(), threadFile->id);
-        FILE *outfile = fopen(tmp_path, "w");
-        char * full_url = NULL;
+      if (!founded) {
+        pthread_cond_wait(&download_cond, &files_download_mutex);
+      }
+      else {
+        // download
+        CURL *curl = curl_easy_init();
+        if(curl){
+          sprintf(tmp_path, "/tmp/download-%d-%d.tmp", getpid(), threadFile->id);
+          FILE *outfile = fopen(tmp_path, "w");
+          char * full_url = NULL;
 
-        curl_easy_setopt(curl, CURLOPT_URL, threadFile->url);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, outfile);
-        curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, threadFile->error_msg);
+          curl_easy_setopt(curl, CURLOPT_URL, threadFile->url);
+          curl_easy_setopt(curl, CURLOPT_WRITEDATA, outfile);
+          curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, threadFile->error_msg);
 
-        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
-        curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, download_progress_func);
-        curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, threadFile);
+          curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
+          curl_easy_setopt(curl, CURLOPT_PROGRESSFUNCTION, download_progress_func);
+          curl_easy_setopt(curl, CURLOPT_PROGRESSDATA, threadFile);
 
-        CURLcode url_res = curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &full_url);
-        char * fname = get_filename(full_url);
-        if (fname != NULL){
+          CURLcode url_res = curl_easy_getinfo(curl, CURLINFO_EFFECTIVE_URL, &full_url);
+          char * fname = get_filename(full_url);
+          if (fname != NULL){
 
-          pthread_mutex_lock(&screen_mutex);
-          sprintf(threadFile->path, "files/%d.%s", threadFile->uniq, fname);
-          delete fname;
-          pthread_mutex_unlock(&screen_mutex);
+            pthread_mutex_lock(&screen_mutex);
+            sprintf(threadFile->path, "files/%d.%s", threadFile->uniq, fname);
+            delete fname;
+            pthread_mutex_unlock(&screen_mutex);
 
-          CURLcode res = curl_easy_perform(curl);
+            CURLcode res = curl_easy_perform(curl);
 
-          pthread_mutex_lock(&files_queue_mutex);
-          pthread_mutex_lock(&screen_mutex);
-          if(res == CURLE_OK){
-            threadFile->error = false;
-            rename(tmp_path, threadFile->path);
-            threadFile->done = true;
-            add_link(threadFile->uniq, threadFile->url);
-          } else {
-            threadFile->error = true;
+            pthread_mutex_lock(&files_queue_mutex);
+            pthread_mutex_lock(&screen_mutex);
+            if(res == CURLE_OK){
+              threadFile->error = false;
+              rename(tmp_path, threadFile->path);
+              threadFile->done = true;
+              add_link(threadFile->uniq, threadFile->url);
+            } else {
+              threadFile->error = true;
+            }
+            running = true;
+            pthread_mutex_unlock(&screen_mutex);
+            pthread_mutex_unlock(&files_queue_mutex);
           }
-          running = true;
+
+
+          fclose(outfile);
+          curl_easy_cleanup(curl);
+
+          ifstream inFile;
+
+          //read from file
+
+          pthread_mutex_lock(&screen_mutex);
+          pthread_mutex_lock(&files_queue_mutex);
+          inFile.open(threadFile->path);//open the input file
+
+          stringstream strStream;
+          strStream << inFile.rdbuf();//read the file
+          string str = strStream.str();//str holds the content of the file
+
           pthread_mutex_unlock(&screen_mutex);
           pthread_mutex_unlock(&files_queue_mutex);
+
+          int line;
+          string tekst;
+          std::ofstream out;
+          out.open("file1.txt", ios::app);
+          while( getline( strStream, tekst ) )
+          {
+            smatch wynik; // tutaj będzie zapisany wynik
+            ++line;
+            if( regex_search( tekst, wynik, pattern ) ){
+              string tad = wynik.str();
+              tad.erase(tad.begin());
+              tad.erase(tad.end() - 1);
+
+              pthread_mutex_lock(&files_queue_mutex);
+              out << tad << "\n";
+              pthread_mutex_unlock(&files_queue_mutex);
+            }
+          }
+          pthread_cond_signal(&download_cond);
         }
-
-
-        fclose(outfile);
-        curl_easy_cleanup(curl);
-
-        // ifstream inFile;
-
-        // //read from file
-
-        // pthread_mutex_lock(&screen_mutex);
-        // pthread_mutex_lock(&files_queue_mutex);
-        // inFile.open(threadFile->path);//open the input file
-
-        // stringstream strStream;
-        // strStream << inFile.rdbuf();//read the file
-        // string str = strStream.str();//str holds the content of the file
-
-        // pthread_mutex_unlock(&screen_mutex);
-        // pthread_mutex_unlock(&files_queue_mutex);
-
-        // int line;
-        // string tekst;
-        // std::ofstream out;
-        // out.open("file1.txt", ios::app);
-        // while( getline( strStream, tekst ) )
-        // {
-        //   smatch wynik; // tutaj będzie zapisany wynik
-        //   ++line;
-        //   if( regex_search( tekst, wynik, pattern ) ){
-        //     string tad = wynik.str();
-        //     tad.erase(tad.begin());
-        //     tad.erase(tad.end() - 1);
-
-        //     pthread_mutex_lock(&files_queue_mutex);
-        //     out << tad << "\n";
-        //     pthread_mutex_unlock(&files_queue_mutex);
-        //   }
-        // }
       }
-      // if there is no new nodes
-      if (i - 1 == numberOfLine || numberOfLine == 0)
-        break;
     }
 }
 
@@ -334,7 +337,7 @@ void create_threads(int number){
 
     for(int i=0; i<threadsNumber; i++){
       worker_threads_args[i] = i;
-      pthread_create(worker_threads + i, NULL, sort, worker_threads_args + i);
+      pthread_create(worker_threads + i, NULL, download, worker_threads_args + i);
     }
 }
 void create_screen(){
