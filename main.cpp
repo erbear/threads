@@ -55,6 +55,11 @@ struct parseStatus {
   char status[1000];
 };
 
+
+bool sortFunction(linkEl *pierwszy, linkEl *drugi){
+  return pierwszy->rank > drugi->rank;
+}
+
 pthread_t * worker_threads, screen_thread, *parse_threads;
 int *worker_threads_args, *parse_threads_args;
 int threadsNumber = 3;
@@ -86,7 +91,7 @@ void add_link(int uniq, char *url){
     if (isEqual == 0){
       sortedFiles[i]->rank++;
       appears = true;
-      //sort_links(i);
+      sort( sortedFiles.begin(), sortedFiles.end(), sortFunction );
       break;
     }
   }
@@ -325,10 +330,10 @@ void paint(){
     clrtoeol();
 
     if (allFiles[i]->error){
-      attron(COLOR_PAIR(3));
-      mvprintw(y, x, "%-50s",  allFiles[i]->error_msg);
-      attroff(COLOR_PAIR(3));
-      mvprintw(y, x+secondColumn, "%-50s", "|");
+      // attron(COLOR_PAIR(3));
+      // mvprintw(y, x, "%-50s",  allFiles[i]->error_msg);
+      // attroff(COLOR_PAIR(3));
+      // mvprintw(y, x+secondColumn, "%-50s", "|");
     }
     else{
 
@@ -342,14 +347,15 @@ void paint(){
         mvprintw(y, x, "%3.0f%%",  percent);
         mvprintw(y, x+10, "%3d. %-50s", i+1, allFiles[i]->url);
         attroff(COLOR_PAIR(2));
-      } else
-      {
-        mvprintw(y, x, "DONE!");
-        mvprintw(y, x+10, "%3d. %-50s", i+1, allFiles[i]->url);
+        y++;
       }
+      //  else
+      // {
+      //   mvprintw(y, x, "DONE!");
+      //   mvprintw(y, x+10, "%3d. %-50s", i+1, allFiles[i]->url);
+      // }
       mvprintw(y, x+secondColumn, "%-50s", "|");
     }
-    y++;
   }
 
   y=2;
