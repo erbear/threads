@@ -16,7 +16,7 @@ using namespace std;
 
 char const *plik1, *plik2;
 
-regex pattern("[\"'](https{0,1}:\\/\\/\\S*)[\"']");
+regex pattern("[\"'](https{0,1}:\\/\\/\\S*?)[\"']");
 
 struct down_file {
   int id;
@@ -341,7 +341,7 @@ void paint(){
   }
 
   y += 5;
-  mvprintw(y, x, "%-50s", "List of downloads");
+  mvprintw(y, x, "%-50s", "LIST OF DOWNLOADS");
   y += 2;
 
   for (int i = 0; i<allFiles.size(); i++)
@@ -375,11 +375,11 @@ void paint(){
     }
   }
 
-  y = threadsNumber * 2 + 15;
+  y = threadsNumber * 2 + 10;
 
-  mvprintw(y, x, "%-50s", "Scores");
+  mvprintw(y, x, "%-50s", "TOP 10");
   y += 2;
-  for (int i = 0; i<sortedFiles.size(); i++){
+  for (int i = 0; i<sortedFiles.size() && i<10; i++){
     mvprintw(y, x, "%3d. %-50s", sortedFiles[i]->rank, sortedFiles[i]->url);
     y++;
   }
