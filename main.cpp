@@ -18,7 +18,7 @@ char const *plik1, *plik2;
 
 regex pattern("[\"'](https{0,1}:\\/\\/\\S*?)[\"']");
 
-struct down_file {
+struct fileObj {
   int id;
   int uniq;
   char url[1000];
@@ -56,7 +56,7 @@ struct parseStatus {
 };
 
 
-bool sortFunction(linkEl *pierwszy, linkEl *drugi){
+bool sort_function(linkEl *pierwszy, linkEl *drugi){
   return pierwszy->rank > drugi->rank;
 }
 
@@ -73,7 +73,7 @@ int screen_height;
 int screen_x;
 int screen_y;
 
-std::vector<down_file*> allFiles;
+std::vector<fileObj*> allFiles;
 std::vector<linkEl*> sortedFiles;
 std::vector<parseEl*> parseElements;
 std::vector<downloadStatus*> downloadStatuses;
@@ -86,7 +86,7 @@ void add_link(int uniq, char *url){
     if (isEqual == 0){
       sortedFiles[i]->rank++;
       appears = true;
-      sort( sortedFiles.begin(), sortedFiles.end(), sortFunction );
+      sort( sortedFiles.begin(), sortedFiles.end(), sort_function );
       break;
     }
   }
@@ -98,7 +98,7 @@ void add_link(int uniq, char *url){
     sortedFiles.push_back(newLink);
   }
 }
-void * download_progress_func(down_file * f, double t, double d, double ultotal, double ulnow){
+void * download_progress_func(fileObj * f, double t, double d, double ultotal, double ulnow){
     pthread_mutex_lock(&screen_mutex);
     f->total = t;
     f->downloaded = d;
@@ -179,6 +179,7 @@ void *parse(void *params){
           tekstOut.append(tad.append("\n"));
         }
       }
+      unlink(parseElements[elementNumber]->path);
       pthread_mutex_lock(&screen_mutex);
       strcpy(parseStatuses[id]->status, "Saving new links");
       pthread_mutex_unlock(&screen_mutex);
@@ -198,7 +199,7 @@ void *download(void *params)
   strcpy(downloadStatuses[id]->status, "Created");
     while (true){
 
-      down_file *threadFile;
+      fileObj *threadFile;
       char tmp_path[1000];
       char currentFile[1000];
       char status[2];
@@ -225,7 +226,7 @@ void *download(void *params)
             continue;
           }
           else {
-            threadFile = new down_file;
+            threadFile = new fileObj;
             threadFile->id = *((int *)params);
             strcpy(threadFile->url, url);
             threadFile->done = false;
@@ -331,8 +332,8 @@ void paint(){
   int y = 0;
   double percent;
 
-  mvprintw(y, x, "Parsing threads");
-  mvprintw(y, x+50, "Downloading threads");
+  mvprintw(y, x, "PARSING THREADS");
+  mvprintw(y, x+50, "DOWNLOADING THREADS");
   y += 2;
   for (int i=0; i<parseStatuses.size(); i++){
     mvprintw(y, x+1, "%d. %-50s", i, parseStatuses[i]->status);
@@ -367,11 +368,7 @@ void paint(){
         attroff(COLOR_PAIR(2));
         y++;
       }
-      //  else
-      // {
-      //   mvprintw(y, x, "DONE!");
-      //   mvprintw(y, x+10, "%3d. %-50s", i+1, allFiles[i]->url);
-      // }
+
     }
   }
 
@@ -383,10 +380,7 @@ void paint(){
     mvprintw(y, x, "%3d. %-50s", sortedFiles[i]->rank, sortedFiles[i]->url);
     y++;
   }
-  // for (int i = 0; i<parseElements.size(); i++){
-  //   mvprintw(y, x+200, "%3d. %-50s", parseElements[i]->parsed, parseElements[i]->path);
-  //   y++;
-  // }
+
   refresh();
 }
 void * screen_function(void * _arg) {
